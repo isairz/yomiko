@@ -1,0 +1,23 @@
+{
+  "name": "Yomiko",
+  "version": "0.0.0",
+  "description": "A Beatiful Web MangaViewer.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:isairz/yomiko.git"
+  },
+  "keywords": [
+    "ImageViewer",
+    "MangaViewer"
+  ],
+  "author": "Seongjun Kim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/isairz/yomiko/issues"
+  },
+  "homepage": "https://github.com/isairz/yomiko"
+}
