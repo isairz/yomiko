@@ -1,0 +1,71 @@
+.listview {
+}
+
+.listview ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.listview li {
+  position: relative;
+  background: #242424;
+  border-bottom: 1px  solid #121211;
+  border-top: 1px solid #444442;
+  min-height: 110px;
+  display: inline-block;
+  width: 25%;
+}
+
+@media screen and (max-width: 1700px) {
+  .listview li {
+    width: 33.33333333%;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .listview li {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .listview li {
+    display: block;
+    width: 100%;
+  }
+}
+
+
+.listview li:hover, .manga-list li:active {
+  background: #121211!important;
+}
+
+.listview li a {
+  text-decoration: none;
+  transition: all .2s linear;
+  display: inline-block;
+  min-height: 110px;
+  width: 100%;
+}
+
+.listview li img {
+  border: 2px solid #444442;
+  width: 100px;
+  height: 100px;
+  background-color: #444442;
+  position: absolute;
+  margin-top: 4px;
+  left: 5px;
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+}
+
+.listview li h3,
+.listview li p {
+  font-size: 13px;
+  margin: 15px 55px 0 125px;
+  line-height: 16px;
+  position: absolute;
+}

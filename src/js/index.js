@@ -1,5 +1,5 @@
 /** @jsx React.DOM */
 var React = require('react');
-var Viewer = require('./components/Viewer.js');
+var ViewerApp = require('./components/ViewerApp.js');
 
-React.render(<Viewer />, document.body);
+React.render(<ViewerApp />, document.body);
