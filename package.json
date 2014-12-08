@@ -4,6 +4,7 @@
   "description": "A Beatiful Web MangaViewer.",
   "main": "index.js",
   "scripts": {
+    "start": "gulp build && node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -37,7 +38,7 @@
     "gulp-concat": "^2.4.2",
     "gulp-cssmin": "^0.1.6",
     "gulp-if": "^1.2.5",
-    "gulp-imagemin": "^2.0.0",
+    "gulp-imagemin": "~2.0.0",
     "gulp-streamify": "0.0.5",
     "gulp-uglify": "^1.0.2",
     "reactify": "^0.17.1",
