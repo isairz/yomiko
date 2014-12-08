@@ -1,11 +1,6 @@
 var React = require('react');
 
 var MangaNode = React.createClass({
-  load: function () {
-    var url = this.getDOMNode().children[0].href;
-    this.props.load(url);
-    return false;
-  },
   render: function () {
     var imgSrc = this.props.data.thumbnail || '';
     if (imgSrc.indexOf('marumaru.in') >= 0) {
@@ -15,12 +10,18 @@ var MangaNode = React.createClass({
 
     return (
       <li className="manga">
-        <a href={link} onClick={this.load}>
+        <a href={link} onClick={this._load}>
           <img src={imgSrc} />
           <h3 className="title">{this.props.data.title}</h3>
         </a>
       </li>
     );
+  },
+
+  _load: function () {
+    var url = this.getDOMNode().children[0].href;
+    this.props.load(url);
+    return false;
   }
 });
 
