@@ -140,7 +140,7 @@ var scrapers = [
       title: $('#content .entry-title').text().trim(),
       images: [].map.call(content.find('img'), function (img) {
         var parent = $(img).parent().get(0);
-        return parent.name === 'a' ? parent.attribs['href']
+        return parent.name === 'a' && parent.attribs['href'].indexOf('imgur.com/') === -1 ? parent.attribs['href']
           : img.attribs['data-lazy-src'] || img.attribs['src'];
         })
     });
