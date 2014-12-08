@@ -152,14 +152,23 @@ marumaru.scrap = function (link, callback) {
   link = link.replace("www.umaumaru.com", "www.mangaumaru.com");
   req(link, function (err, res, body) {
     if (err) {
-      console.error(err);
-      callback(undefined);
+      callback({
+        type: 'error',
+        message: 'Cannot read page. Maybe wrong URL.'
+      });
     }
     var $ = cheerio.load(body);
     function next(idx) {
       scrapers[idx]($, function (result) {
-        if (result === undefined && idx+1 < scrapers.length) {
-          next(idx+1);
+        if (result === undefined) {
+          if (idx+1 < scrapers.length) {
+            next(idx+1);
+          } else {
+            callback({
+              type: 'error',
+              message: 'Cannot parse page.'
+            });
+          }
         } else {
           callback(result);
         }
