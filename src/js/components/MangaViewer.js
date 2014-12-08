@@ -89,7 +89,7 @@ var MangaViewer = React.createClass({
   },
 
   _onKeyDown: function (e) {
-    switch(e.keyIdentifier) {
+    switch(e.key || e.keyIdentifier) {
       case 'Up':
       case 'Right':
       case 'PageUp':
@@ -110,9 +110,9 @@ var MangaViewer = React.createClass({
   },
 
   _onWheel: function (e) {
-    if (e.wheelDeltaY > 0) {
+    if (e.deltaY < 0) {
       this._prevPage();
-    } else if (e.wheelDeltaY < 0) {
+    } else if (e.deltaY > 0) {
       this._nextPage();
     }
   },
