@@ -7,10 +7,6 @@
   display: block;
   transform: translate3d(0px, 0, 0);
   /*transition: transform 0.3s linear;*/
-  transition-property: transform-origin, transform, visibility, opacity;
-  transition-duration: 800ms, 800ms, 800ms, 800ms;
-  transition-timing-function: cubic-bezier(0.26, 0.86, 0.44, 0.985), cubic-bezier(0.26, 0.86, 0.44, 0.985), cubic-bezier(0.26, 0.86, 0.44, 0.985), cubic-bezier(0.26, 0.86, 0.44, 0.985);
-  transition-delay: initial, initial, initial, initial;
   width:100%;
   height: auto;
 }
@@ -21,13 +17,27 @@
   margin: 0 auto;
   min-height: 110px;
   position: absolute;
-  top:0;
-  right:0;
+  top: 0;
+  right: 0;
   background-image: url('');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  transition-property: transform-origin, transform, visibility, opacity;
+  transition-duration: 800ms, 800ms, 800ms, 800ms;
+  transition-timing-function: cubic-bezier(0.26, 0.86, 0.44, 0.985), cubic-bezier(0.26, 0.86, 0.44, 0.985), cubic-bezier(0.26, 0.86, 0.44, 0.985), cubic-bezier(0.26, 0.86, 0.44, 0.985);
+  transition-delay: initial, initial, initial, initial;
+  transform: translate3d(0, 0, 0);
 }
+
+.mangaview .slider .page.prev {
+  transform: translate3d(100vw, 0, 0);
+}
+
+.mangaview .slider .page.next {
+  transform: translate3d(-100vw, 0, 0);
+}
+
 
 .mangaview .slider .page:nth-child(1) {
   /*position: relative;*/

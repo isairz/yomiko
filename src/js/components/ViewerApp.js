@@ -1,6 +1,7 @@
-/** @jsx React.DOM */
 var React = require('react');
+var ErrorPage = require('./ErrorPage');
 var MangaList = require('./MangaList');
+var MangaViewer = require('./MangaViewer');
 
 var ViewerApp = React.createClass({
   getInitialState: function () {
@@ -28,6 +29,9 @@ var ViewerApp = React.createClass({
         break;
       case 'manga':
         content = <MangaViewer data={this.state.data} />;
+        break;
+      case 'error':
+        content = <ErrorPage data={this.state.data} />;
         break;
     }
 
