@@ -3,8 +3,11 @@ var React = require('react');
 var MangaNode = React.createClass({
   render: function () {
     var imgSrc = this.props.data.thumbnail || '';
-    if (imgSrc.indexOf('marumaru.in') >= 0) {
+    if (imgSrc.indexOf('marumaru.in/') >= 0) {
       imgSrc = '/image-proxy?src=' + imgSrc;
+    } else if (imgSrc.indexOf('i.imgur.com/') >= 0) {
+      // use thumbnail.
+      imgSrc = imgSrc.replace(/(\.\w+)$/, 's$1');
     }
     var link = this.props.data.link;
 
