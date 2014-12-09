@@ -7,7 +7,7 @@ var express = require('express');
 var app = express();
 
 var request = require('request');
-var maru = require('./scraper-marumaru');
+var maru = require('./scraper/marumaru');
 
 // all environments
 app.set('port', process.env.PORT || 2000);

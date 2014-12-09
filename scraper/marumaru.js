@@ -9,11 +9,11 @@ var path = require('path');
 var config;
 
 try {
-  config = require('./config.json');
+  config = require('../config.json');
 } catch (e) {
   console.log(e);
   console.warn("config isn't exist.\nRunning as default settings");
-  config = require('./config.sample.json');
+  config = require('../config.sample.json');
 }
 
 var marumaru = module.exports = {};
