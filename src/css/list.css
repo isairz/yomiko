@@ -1,10 +1,14 @@
 .listview {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .listview ul {
   list-style: none;
   margin: 0;
   padding: 0;
+  font-size: 0;
 }
 
 .listview li {
@@ -36,6 +40,11 @@
   }
 }
 
+.listview li {
+  /* FIXME: temporary width for test infinate scroll */
+  width: 100%!important;
+}
+
 
 .listview li:hover, .manga-list li:active {
   background: #121211!important;
@@ -44,12 +53,12 @@
 .listview li a {
   text-decoration: none;
   transition: all .2s linear;
-  display: inline-block;
+  display: block;
   min-height: 110px;
   width: 100%;
 }
 
-.listview li img {
+.listview li div.thumbnail {
   border: 2px solid #444442;
   width: 100px;
   height: 100px;
@@ -60,6 +69,9 @@
   border-radius: 2px;
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
+  background-position: left top;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .listview li h3,
