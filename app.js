@@ -10,7 +10,7 @@ var request = require('request');
 var maru = require('./scraper/marumaru');
 
 // all environments
-app.set('port', process.env.PORT || 2000);
+app.set('port', process.env.PORT || 2643);
 app.set('view engine', 'jade');
 app.use(express.static('public'));
 app.use(express.static('build'));
