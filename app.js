@@ -4,14 +4,16 @@
  */
 
 var express = require('express');
-var app = express();
+var compress = require('compression');
 
 var request = require('request');
 var maru = require('./scraper/marumaru');
 
 // all environments
+var app = express();
 app.set('port', process.env.PORT || 2643);
 app.set('view engine', 'jade');
+app.use(compress());
 app.use(express.static('public'));
 app.use(express.static('build'));
 
