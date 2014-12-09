@@ -29,7 +29,8 @@
     "express": "^4.10.4",
     "jade": "*",
     "react": "^0.12.1",
-    "request": "^2.40.0"
+    "request": "^2.40.0",
+    "superagent": "~0.21.0"
   },
   "devDependencies": {
     "browserify": "^7.0.0",

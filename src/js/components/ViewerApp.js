@@ -3,6 +3,8 @@ var ErrorPage = require('./ErrorPage');
 var MangaList = require('./MangaList');
 var MangaViewer = require('./MangaViewer');
 
+var request = require('superagent');
+
 var ViewerApp = React.createClass({
   getInitialState: function () {
     return {searchKeyword: '', data: []};
@@ -59,14 +61,13 @@ var ViewerApp = React.createClass({
     if (history.state && newLocation != location.href) {
       history.pushState(null, '', newLocation);
     }
-    $.ajax({
-      url: '/api/?link=' + encoded,
-      dataType: 'json',
-      success: function (data) {
-        this.setState({searchKeyword:'', data: data});
-        history.replaceState(this.state, data.title, newLocation);
-      }.bind(this)
-    });
+    request
+      .get('/api/?link=' + encoded)
+      .accept('json')
+      .end(function (res) {
+        this.setState({searchKeyword:'', data: res.body});
+        history.replaceState(this.state, this.state.title, newLocation);
+      }.bind(this));
   },
 
   _onPopState: function (e) {
