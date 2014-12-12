@@ -129,6 +129,65 @@ var scrapers = [
     });
   },
   function ($, callback) {
+    var articles = $('#post_list2 article');
+    if (!articles.length) {
+      callback(undefined);
+      return;
+    }
+    var data = [].map.call(articles, function (article) {
+      var ar = $(article);
+      return {
+        thumbnail: ar.find('img').attr('src'),
+        title: ar.find('.entry-title').text().trim(),
+        link: ar.find('a').attr('href')
+      }
+    }).filter(function (episode) { return episode.title; })
+
+    var prev = $('.prev.page-numbers').attr('href');
+    var next = $('.next.page-numbers').attr('href');
+
+    if (prev) {
+      data.push({
+        title: 'Prev Page',
+        link: 'http://spicaterrible.org' + prev // FIXME
+      });
+    }
+    if (next) {
+      data.push({
+        title: 'Next Page',
+        link: 'http://spicaterrible.org' + next // FIXME
+      });
+    }
+
+    callback({
+      type: 'list',
+      title: $("head title").text().trim(),
+      data: data
+    });
+  },
+  function ($, callback) {
+    var content = $('article .post_content p');
+    if (!content.length) {
+      callback(undefined);
+      return;
+    }
+    // FIXME: thumbnail.
+    var image = content.find('img')[0];
+    var thumbnail = image ? image.attribs['src'] : '';
+
+    callback({
+      type: 'list',
+      title: $("article #post_title").text(),
+      data: [].map.call(content.find('a'), function (link) {
+        return {
+          thumbnail: thumbnail,
+          title: $(link).text().trim(),
+          link: $(link).attr('href')
+        }
+      }).filter(function (episode) { return episode.title; })
+    });
+  },
+  function ($, callback) {
     var content = $('article p');
     if (!content.length) {
       callback(undefined);
