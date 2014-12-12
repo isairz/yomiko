@@ -52,12 +52,12 @@ var ViewerApp = React.createClass({
 
   _initUrl: function () {
     return location.search.indexOf('?link=http') === 0
-      ? decodeURIComponent(location.search.substr(6)) : 'http://marumaru.in/c/1';
+      ? decodeURIComponent(location.search.substr(6)) : '';
   },
 
   _load: function (url) {
     var encoded = encodeURIComponent(url || this._initUrl());
-    var newLocation = location.origin + '/?link=' + encoded;
+    var newLocation = location.origin + (!encoded ? '' : '/?link=' + encoded);
     if (history.state && newLocation != location.href) {
       history.pushState(null, '', newLocation);
     }

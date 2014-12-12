@@ -34,6 +34,11 @@ app.get('/image-proxy', function (req, res) {
 });
 
 app.get('/api/*', function (req, res) {
+  if (!req.query.link) {
+    res.json(require('./scraper/main.json'));
+    return;
+  }
+
   maru.scrap(req.query.link, res.json.bind(res));
 });
 
