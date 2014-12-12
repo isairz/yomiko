@@ -65,6 +65,11 @@ var ViewerApp = React.createClass({
       .get('/api/?link=' + encoded)
       .accept('json')
       .end(function (res) {
+        // If list has one manga, load that immediately.
+        if (res.body.type === 'list' && res.body.data.length === 1) {
+          this._load(res.body.data[0].link);
+          return;
+        }
         this.setState({searchKeyword:'', data: res.body});
         history.replaceState(this.state, this.state.title, newLocation);
       }.bind(this));
