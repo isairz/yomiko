@@ -46,7 +46,7 @@ var MangaList = React.createClass({
     }.bind(this))
     .map(function (manga, idx) {
       var position = idx * heightPerNode;
-      return <MangaNode hidden={position < this.state.top || position > this.state.bottom} data={manga} load={this.props.load} />
+      return <MangaNode hidden={position < this.state.top-heightPerNode || position > this.state.bottom} data={manga} load={this.props.load} />
     }.bind(this));
 
     return (
