@@ -2,11 +2,12 @@ var React = require('react');
 
 var MangaPage = React.createClass({
   getInitialState: function () {
-    return {loaded: false, proxy: false};
+    return {loaded: false, proxy: false, retried: 0};
   },
 
   render: function () {
     var preloadImage = null;
+    src = this._src();
     if (this.props.preload) {
       preloadImage = (
         <img
@@ -18,14 +19,23 @@ var MangaPage = React.createClass({
         />
       );
     }
+
+    var pageStyle = {};
+    if (this.props.preload) {
+      pageStyle.backgroundImage = 'url(' + this._src() + ')';
+    }
+
     return (
       <div
         className={'page ' + this.props.position}
-        style={{
-          backgroundImage: 'url(' + (!this.state.loaded ? '' : this._src()) + ')'
-        }}
+        style={pageStyle}
       >
         {preloadImage}
+         <div className={'loading-message' + (this.state.loaded ? ' hidden_elem' : '')}>
+           <span className='fade-color'>
+             {!this.state.retried ? 'Loading image..' : 'Retry..(' + this.state.retried + ')'}
+           </span>
+         </div>
       </div>
     );
   },
@@ -39,12 +49,22 @@ var MangaPage = React.createClass({
   },
 
   _src: function () {
-    return !this.state.proxy ? this.props.src
-      : ('/image-proxy?src=' + encodeURIComponent(this.props.src));
+    var src = this.props.src;
+    if (this.state.retried) {
+      src += (src.indexOf('?') >= 0 ? '&' : '?') + 'retried=' + this.state.retried;
+    }
+    if (this.state.proxy) {
+      src = ('/image-proxy?src=' + encodeURIComponent(src));
+    }
+    return src;
   },
 
   _retryWithProxy: function () {
-    this.setState({proxy: true});
+    if (!this.state.proxy) {
+      this.setState({proxy: true, retried: this.state.retried+1});
+      return;
+    }
+    setTimeout(this.setState.bind(this, {retried: this.state.retried+1}), 1000);
   }
 });
 

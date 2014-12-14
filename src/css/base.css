@@ -22,3 +22,73 @@ h1, h2, h3, h4, h5, h6 {
 .content {
   height: 100vh;
 }
+
+.loading-message {
+  position: fixed;
+  padding: 0.2em, 0.7em;
+  right: 0;
+  bottom: 0;
+}
+
+.fade-color {
+  animation-duration: 1s;
+  animation-name: fadec;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  -moz-animation-duration: 1s;
+  -moz-animation-name: fadec;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-direction: alternate;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-name: fadec;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-direction: alternate;
+  -o-animation-duration: 1s;
+  -o-animation-name: fadec;
+  -o-animation-iteration-count: infinite;
+  -o-animation-direction: alternate;
+}
+
+@keyframes
+fadec {
+  from {
+    color: #000;
+  }
+
+  to {
+    color: #fff;
+  };
+}
+
+@-moz-keyframes
+fadec {
+  from {
+    color: #000;
+  }
+
+  to {
+    color: #fff;
+  };
+}
+
+@-webkit-keyframes
+fadec {
+  from {
+    color: #000;
+  }
+
+  to {
+    color: #fff;
+  };
+}
+
+@-o-keyframes
+fadec {
+  from {
+    color: #000;
+  }
+
+  to {
+    color: #fff;
+  };
+}
