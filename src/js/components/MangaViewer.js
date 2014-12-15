@@ -1,4 +1,11 @@
 var React = require('react');
+var Hammer = require('hammerjs');
+
+var requestAnimationFrame = window.requestAnimationFrame || (function() {
+  return window[Hammer.prefixed(window, "requestAnimationFrame")] || function(callback) {
+    setTimeout(callback, 1000 / 60);
+  }
+})();
 
 var MangaPage = React.createClass({
   getInitialState: function () {
@@ -25,9 +32,16 @@ var MangaPage = React.createClass({
       pageStyle.backgroundImage = 'url(' + this._src() + ')';
     }
 
+    var translateX = this.props.translateX;
+    if (translateX) {
+      pageStyle.display = 'block';
+      pageStyle.transform =
+        'translate3d(' + (translateX + (this.props.offset|this.props.offset.x)) + '%,' + (this.props.offset|this.props.offset.y) + '%, 0)';
+    }
+
     return (
       <div
-        className={'page ' + this.props.position}
+        className={'page ' + this.props.position + (this.props.animate ? ' effect':'')}
         style={pageStyle}
       >
         {preloadImage}
@@ -70,12 +84,17 @@ var MangaPage = React.createClass({
 
 var MangaViewer = React.createClass({
   getInitialState: function () {
-    return {page: 0};
+    return {
+      page: 0,
+      translateX: 0,
+      animate: false
+    };
   },
 
   componentDidMount: function () {
     window.addEventListener('keydown', this._onKeyDown);
     window.addEventListener('wheel', this._onWheel);
+    this._initTouch();
   },
 
   componentWillUnmount: function () {
@@ -84,6 +103,7 @@ var MangaViewer = React.createClass({
   },
 
   render: function () {
+    var self = this;
     var current = this.state.page;
     var pages = [].map.call(this.props.data.images, function (imgSrc, page) {
       // console.log();
@@ -92,6 +112,9 @@ var MangaViewer = React.createClass({
           page={page}
           preload={page>=current-2 && page<=current+2}
           position={page===current ? 'current' : page<=current ? 'prev' : 'next'}
+          offset={page===current-1 ? {x: 100} : page===current+1 ? {x: -100} : {}}
+          translateX={(page>=current-1 && page<=current+1) ? self.state.translateX : null}
+          animate={(page>=current-1 && page<=current+1) ? self.state.animate : false}
           src={imgSrc}
         />
       );
@@ -102,8 +125,6 @@ var MangaViewer = React.createClass({
         <div className="slider">
           {pages}
         </div>
-        <div className="--prev" onClick={this.prevPage} />
-        <div className="--next" onClick={this.nextPage} />
       </div>
     );
   },
@@ -136,6 +157,55 @@ var MangaViewer = React.createClass({
       this._nextPage();
     }
   },
+
+  _initTouch: function () {
+    var self = this;
+    var hammer;
+    var deltaPage = 0;
+    var translateX = 0;
+    var ticking = false;
+    var animate = false;
+
+    var update = function () {
+      if(!ticking) {
+        ticking = true;
+        requestAnimationFrame(function () {
+          var newState = {translateX: translateX, animate: animate};
+          if (deltaPage) {
+             newState.page = self.state.page + deltaPage;
+             deltaPage = 0;
+          }
+          self.setState(newState);
+          ticking = false;
+        });
+      }
+    }
+
+    var onPan = function (e) {
+      translateX = (100 / self.getDOMNode().offsetWidth) * e.deltaX;
+
+      if (e.type == 'panend' || e.type == 'pancancel') {
+        if (Math.abs(translateX) > 10 && e.type == 'panend') {
+          if (translateX < 0 && self.state.page > 0) {
+            deltaPage = -1;
+          } else if (translateX > 0 && self.state.page < self.props.data.images.length-1) {
+            deltaPage = 1;
+          }
+        }
+
+        translateX = 0;
+        animate = true;
+      } else {
+        animate = false;
+      }
+      update();
+    }
+
+    hammer = new Hammer.Manager(this.getDOMNode());
+    hammer.add(new Hammer.Pan({ direction: Hammer.DIRECTION_HORIZONTAL, threshold: 10 }));
+    hammer.on("panstart panmove panend pancancel", Hammer.bindFn(onPan, this));
+  },
+
 
   _prevPage: function () {
     if (this.state.page <= 0) {
