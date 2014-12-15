@@ -27,6 +27,7 @@
     "cheerio": "^0.18.0",
     "compression": "~1.2.1",
     "express": "^4.10.4",
+    "hammerjs": "~2.0.4",
     "jade": "*",
     "react": "^0.12.1",
     "request": "^2.40.0",
