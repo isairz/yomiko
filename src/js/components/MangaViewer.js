@@ -37,6 +37,7 @@ var MangaPage = React.createClass({
       pageStyle.display = 'block';
       pageStyle.transform =
         'translate3d(' + (translateX + (this.props.offset|this.props.offset.x)) + '%,' + (this.props.offset|this.props.offset.y) + '%, 0)';
+      pageStyle.webkitTransform = pageStyle.transform;
     }
 
     return (
