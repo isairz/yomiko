@@ -167,6 +167,7 @@ var MangaViewer = React.createClass({
     var translateX = 0;
     var ticking = false;
     var animate = false;
+    var animateTimer = null;
 
     var update = function () {
       if(!ticking) {
@@ -189,16 +190,21 @@ var MangaViewer = React.createClass({
       if (e.type == 'panend' || e.type == 'pancancel') {
         if (Math.abs(translateX) > 10 && e.type == 'panend') {
           if (translateX < 0 && self.state.page > 0) {
-            deltaPage = -1;
+            deltaPage += -1;
           } else if (translateX > 0 && self.state.page < self.props.data.images.length-1) {
-            deltaPage = 1;
+            deltaPage += 1;
           }
         }
 
         translateX = 0;
         animate = true;
-      } else {
-        animate = false;
+        if (animateTimer) {
+          clearTimeout(animateTimer);
+        }
+        animateTimer = setTimeout(function() {
+          animate = false;
+          update();
+        }, 200);
       }
       update();
     }
