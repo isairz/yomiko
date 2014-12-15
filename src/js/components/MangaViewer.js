@@ -100,6 +100,7 @@ var MangaViewer = React.createClass({
   componentWillUnmount: function () {
     window.removeEventListener('keydown', this._onKeyDown);
     window.removeEventListener('wheel', this._onWheel);
+    // FIXME: detach touch event.
   },
 
   render: function () {
@@ -201,9 +202,15 @@ var MangaViewer = React.createClass({
       update();
     }
 
+    var onDoubleTap = function (e) {
+      self._toggleFullScreen();
+    }
+
     hammer = new Hammer.Manager(this.getDOMNode());
     hammer.add(new Hammer.Pan({ direction: Hammer.DIRECTION_HORIZONTAL, threshold: 10 }));
+    hammer.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
     hammer.on("panstart panmove panend pancancel", Hammer.bindFn(onPan, this));
+    hammer.on("doubletap", Hammer.bindFn(onDoubleTap, this));
   },
 
 
@@ -227,6 +234,29 @@ var MangaViewer = React.createClass({
 
   _lastPage: function () {
     this.setState({page: this.props.data.images.length-1});
+  },
+
+  _toggleFullScreen: function () {
+    var doc = window.document;
+    var docEl = this.getDOMNode();
+
+    var requestFullScreen = docEl.requestFullscreen
+      || docEl.mozRequestFullScreen
+      || docEl.webkitRequestFullScreen
+      || docEl.msRequestFullscreen;
+    var cancelFullScreen = doc.exitFullscreen
+      || doc.mozCancelFullScreen
+      || doc.webkitExitFullscreen
+      || doc.msExitFullscreen;
+
+    if (!doc.fullscreenElement
+      && !doc.mozFullScreenElement
+      && !doc.webkitFullscreenElement
+      && !doc.msFullscreenElement) {
+      requestFullScreen.call(docEl);
+    } else {
+      cancelFullScreen.call(doc);
+    }
   }
 });
 
