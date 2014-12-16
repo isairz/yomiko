@@ -32,26 +32,33 @@ var MangaNode = React.createClass({
 
 var MangaList = React.createClass({
   getInitialState: function () {
-    return {top: 0, bottom: 0};
+    return {
+      firstElement: 0,
+      lastElement: 10,
+      heightPerNode: 112
+    };
   },
 
   componentDidMount: function () {
+    window.addEventListener('scroll', this._onScroll, this, false);
     this._onScroll();
   },
 
+  componentWillUnmount: function () {
+    window.removeEventListener('scroll', this._onScroll, this, false);
+  },
+
   render: function () {
-    var heightPerNode = 112;
     var mangaNodes = this.props.data.filter(function (manga) {
       return manga.title.toLowerCase().indexOf(this.props.keyword.toLowerCase()) >= 0;
     }.bind(this))
     .map(function (manga, idx) {
-      var position = idx * heightPerNode;
-      return <MangaNode hidden={position < this.state.top-heightPerNode || position > this.state.bottom} data={manga} load={this.props.load} />
+      return <MangaNode hidden={idx < this.state.firstElement || idx > this.state.lastElement} data={manga} load={this.props.load} />
     }.bind(this));
 
     return (
-      <div className="listview" onScroll={this._onScroll}>
-        <ul onScroll={this._onScroll}>
+      <div className="listview">
+        <ul>
           {mangaNodes}
         </ul>
       </div>
@@ -59,10 +66,17 @@ var MangaList = React.createClass({
   },
 
   _onScroll: function(e) {
-    this.setState({
-      top: this.getDOMNode().scrollTop,
-      bottom: this.getDOMNode().scrollTop + this.getDOMNode().offsetHeight
-    })
+    var top = window.scrollY;
+    var bottom = top + window.innerHeight;
+    var firstElement = Math.floor(top/this.state.heightPerNode);
+    var lastElement = Math.floor(bottom/this.state.heightPerNode);
+
+    if (firstElement < this.state.firstElement || lastElement > this.state.lastElement) {
+      this.setState({
+        firstElement: firstElement-5,
+        lastElement: lastElement+5
+      });
+    }
   }
 });
 
