@@ -1,6 +1,9 @@
 var React = require('react');
 var Hammer = require('hammerjs');
 
+// two page to one page.
+var autoSlice = window.innerWidth / window.innerHeight < 1;
+
 var requestAnimationFrame = window.requestAnimationFrame || (function() {
   return window[Hammer.prefixed(window, "requestAnimationFrame")] || function(callback) {
     setTimeout(callback, 1000 / 60);
@@ -9,7 +12,12 @@ var requestAnimationFrame = window.requestAnimationFrame || (function() {
 
 var MangaPage = React.createClass({
   getInitialState: function () {
-    return {loaded: false, proxy: false, retried: 0};
+    return {
+      loaded: false,
+      proxy: false,
+      retried: 0,
+      double: null
+    };
   },
 
   render: function () {
@@ -26,23 +34,38 @@ var MangaPage = React.createClass({
         />
       );
     }
+    var classNames = ['page', this.props.position];
+    if (this.props.animate) {
+      classNames.push('effect');
+    }
 
     var pageStyle = {};
     if (this.props.preload) {
       pageStyle.backgroundImage = 'url(' + this._src() + ')';
     }
 
-    var translateX = this.props.translateX;
-    if (translateX) {
+    if (this.state.double) {
+      classNames.push('double');
+      classNames.push(this.state.double);
+    }
+
+    if (this.props.translateX) {
+      var translateX = this.props.translateX + (this.props.offset|this.props.offset.x);
+      if (this.state.double === 'right') {
+        translateX /= 2;
+      }
+      if (this.state.double === 'left') {
+        translateX = translateX / 2 + 50;
+      }
       pageStyle.display = 'block';
       pageStyle.transform =
-        'translate3d(' + (translateX + (this.props.offset|this.props.offset.x)) + '%,' + (this.props.offset|this.props.offset.y) + '%, 0)';
+        'translate3d(' + translateX + '%,' + (this.props.offset|this.props.offset.y) + '%, 0)';
       pageStyle.webkitTransform = pageStyle.transform;
     }
 
     return (
       <div
-        className={'page ' + this.props.position + (this.props.animate ? ' effect':'')}
+        className={classNames.join(' ')}
         style={pageStyle}
       >
         {preloadImage}
@@ -56,6 +79,10 @@ var MangaPage = React.createClass({
   },
 
   _onLoad: function () {
+    var img = this.refs.image.getDOMNode();
+    if (autoSlice && img.naturalWidth / img.naturalHeight > 1.2) {
+      this.setState({double: 'right'});
+    }
     this.setState({loaded: true});
   },
 
@@ -80,6 +107,22 @@ var MangaPage = React.createClass({
       return;
     }
     setTimeout(this.setState.bind(this, {retried: this.state.retried+1}), 1000);
+  },
+
+  _prevPage: function() {
+    if (this.state.double != 'left') {
+      return false;
+    }
+    this.setState({double: 'right'});
+    return true;
+  },
+
+  _nextPage: function() {
+    if (this.state.double != 'right') {
+      return false;
+    }
+    this.setState({double: 'left'});
+    return true;
   }
 });
 
@@ -108,9 +151,9 @@ var MangaViewer = React.createClass({
     var self = this;
     var current = this.state.page;
     var pages = [].map.call(this.props.data.images, function (imgSrc, page) {
-      // console.log();
       return (
         <MangaPage
+          ref={page===current ? 'current' : ''}
           page={page}
           preload={page>=current-2 && page<=current+2}
           position={page===current ? 'current' : page<=current ? 'prev' : 'next'}
@@ -175,8 +218,12 @@ var MangaViewer = React.createClass({
         requestAnimationFrame(function () {
           var newState = {translateX: translateX, animate: animate};
           if (deltaPage) {
-             newState.page = self.state.page + deltaPage;
-             deltaPage = 0;
+            if (deltaPage < 0) {
+              self._prevPage();
+            } else {
+              self._nextPage();
+            }
+            deltaPage = 0;
           }
           self.setState(newState);
           ticking = false;
@@ -222,6 +269,9 @@ var MangaViewer = React.createClass({
 
 
   _prevPage: function () {
+    if (this.refs.current && this.refs.current._prevPage()) {
+      return;
+    }
     if (this.state.page <= 0) {
       return;
     }
@@ -229,6 +279,9 @@ var MangaViewer = React.createClass({
   },
 
   _nextPage: function () {
+    if (this.refs.current && this.refs.current._nextPage()) {
+      return;
+    }
     if (this.state.page >= this.props.data.images.length-1) {
       return;
     }

@@ -47,6 +47,18 @@
   z-index: 2;
 }
 
+.mangaview .slider .page.double {
+  width: 200%;
+}
+
+.mangaview .slider .page.double.current.left {
+  transform: translate3d(50%, 0, 0);
+}
+
+.mangaview .slider .page.double.next.right {
+  transform: translate3d(-50%, 0, 0);
+}
+
 .mangaview .prevButton {
   width: 10%;
   height: 100%;
