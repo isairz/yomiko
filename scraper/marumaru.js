@@ -5,6 +5,7 @@ var request = require('request');
 var async = require('async');
 var archiver = require('archiver');
 var path = require('path');
+var url = require('url');
 
 var config;
 
@@ -149,13 +150,13 @@ var scrapers = [
     if (prev) {
       data.push({
         title: 'Prev Page',
-        link: 'http://spicaterrible.org' + prev // FIXME
+        link: prev
       });
     }
     if (next) {
       data.push({
         title: 'Next Page',
-        link: 'http://spicaterrible.org' + next // FIXME
+        link: next
       });
     }
 
@@ -206,6 +207,16 @@ var scrapers = [
   }
 ];
 
+function resolveLinks(baseUri, data) {
+  if (data.type === 'link') {
+    [].map.call(data.data, function (linkInfo) {
+      linkInfo.link = url.resolve(baseUri, linkInfo.link);
+      return linkInfo;
+    });
+  }
+  return data;
+}
+
 marumaru.scrap = function (link, callback) {
   link = decodeURIComponent(link);
   link = link.replace("www.umaumaru.com", "www.mangaumaru.com");
@@ -229,7 +240,7 @@ marumaru.scrap = function (link, callback) {
             });
           }
         } else {
-          callback(result);
+          callback(resolveLinks(link, result));
         }
       });
     }
