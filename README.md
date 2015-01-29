@@ -7,7 +7,8 @@ A Beatiful Web MangaViewer.
 ```
 [sudo] npm install -g gulp
 npm install
-npm start
+gulp build
+node app.js
 ```
 
 ## License
