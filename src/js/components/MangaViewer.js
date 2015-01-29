@@ -2,7 +2,8 @@ var React = require('react');
 var Hammer = require('hammerjs');
 
 // two page to one page.
-var autoSlice = window.innerWidth / window.innerHeight < 1;
+// var autoSlice = window.innerWidth / window.innerHeight < 1;
+var autoSlice = false;
 
 var requestAnimationFrame = window.requestAnimationFrame || (function() {
   return window[Hammer.prefixed(window, "requestAnimationFrame")] || function(callback) {
