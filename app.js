@@ -6,7 +6,12 @@
 var express = require('express');
 var compress = require('compression');
 
-var request = require('request');
+var request = require('request').defaults({
+  jar: true,
+  headers: {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.65 Safari/537.36'
+  }
+});
 var maru = require('./scraper/marumaru');
 
 // all environments
