@@ -35,7 +35,6 @@ var req = function () {
       'Origin': 'http://www.mangaumaru.com'
     }
   });
-  var loginTryed = false;
 
   var _req = function (url, callback) {
     function tryRequest(url, callback) {
@@ -49,7 +48,11 @@ var req = function () {
           tryRequest(url, callback);
         } else if (body.indexOf('http://www.mangaumaru.com/wp-login.php?action=postpass') != -1) {
           // login for protected manga.
-          _req.login(function (){
+          _req.login(function (err){
+            if (err) {
+              callback(err);
+              return;
+            }
             tryRequest(url, callback);
           })
         } else {
@@ -61,15 +64,18 @@ var req = function () {
     tryRequest(url, callback);
   }
 
+  var loginTryedTime;
   _req.login = function(callback) {
-    if (loginTryed) {
+    if (loginTryedTime && new Date().getTime() - loginTryedTime <= 120000) {
       // Because of sucuri brute-force protector, retrying could cause ip ban. (30 times for 1 hour)
+      console.error('Login Failed!');
       var e = new Error('Login Failed!');
       callback(e);
       return;
     }
 
-    loginTryed = true;
+    loginTryedTime = new Date().getTime();
+    console.log('Login Try!');
     requestLogin.post(
       'http://www.mangaumaru.com/wp-login.php?action=postpass',
       {form: {post_password: config.wp_password, Submit: 'Submit'}},
@@ -226,6 +232,7 @@ marumaru.scrap = function (link, callback) {
         type: 'error',
         message: 'Cannot read page. Maybe wrong URL.'
       });
+      return;
     }
     var $ = cheerio.load(body);
     function next(idx) {
