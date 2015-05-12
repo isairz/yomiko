@@ -103,7 +103,7 @@ var scrapers = [
 
         return {
           thumbnail: $(li).find('img').attr('src'),
-          title: $(li).find('strong').text().trim(),
+          title: $(li).text().trim(),
           link: link
         };
       })
