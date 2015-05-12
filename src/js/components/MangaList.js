@@ -13,8 +13,8 @@ var MangaNode = React.createClass({
 
     return (
       <li className="manga">
-        <a className={this.props.hidden ? 'hidden_elem' : ''} ref='link' href={link} onClick={this._onClick}>
-          <div className="thumbnail" style={{backgroundImage:'url('+imgSrc+')'}} />
+        <a ref='link' href={link} onClick={this._onClick}>
+          <div className={(this.props.hidden ? 'hidden_elem' : '') + ' thumbnail'} style={{backgroundImage:'url('+imgSrc+')'}} />
           <h3 className="title">{this.props.data.title}</h3>
         </a>
       </li>
