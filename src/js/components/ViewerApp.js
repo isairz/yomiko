@@ -23,7 +23,6 @@ var ViewerApp = React.createClass({
   },
 
   render: function () {
-    scrollTo(0, 0);
     var content = null;
     switch (this.state.data.type) {
       case 'list':
@@ -72,6 +71,7 @@ var ViewerApp = React.createClass({
         }
         this.setState({searchKeyword:'', data: res.body});
         history.replaceState(this.state, this.state.title, newLocation);
+        scrollTo(0, 0);
         document.title = res.body.title;
       }.bind(this));
   },
