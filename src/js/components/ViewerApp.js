@@ -72,6 +72,7 @@ var ViewerApp = React.createClass({
         }
         this.setState({searchKeyword:'', data: res.body});
         history.replaceState(this.state, this.state.title, newLocation);
+        document.title = res.body.title;
       }.bind(this));
   },
 
