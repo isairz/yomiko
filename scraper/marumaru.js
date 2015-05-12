@@ -257,7 +257,7 @@ marumaru.scrap = function (link, callback) {
 
 marumaru.episodeToZip = function (link, callback) {
   var archive = archiver('zip');
-  marumaru.episode(link, function(episode) {
+  marumaru.scrap(link, function(episode) {
     var images = episode.images;
     var pageLength = images.length.toString().length;
     var padZeros = function (idx) {
@@ -284,7 +284,7 @@ marumaru.episodeToZip = function (link, callback) {
           archive.abort();
           archive.emit('error', err);
         });
-      archive.append(imageStream, { name: padZeros(-~i) + path.extname(images[i]) });
+      archive.append(imageStream, { name: padZeros(-~i) + path.extname(images[i]).split('?')[0] });
     }
     archive.finalize();
     callback(dirName(episode.title || encodeURIComponent(link)) + '.zip', archive);

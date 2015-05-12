@@ -47,6 +47,23 @@ app.get('/api/*', function (req, res) {
   maru.scrap(req.query.link, res.json.bind(res));
 });
 
+app.get('/download/*', function (req, res) {
+  maru.episodeToZip(req.query.link, function(filename, stream) {
+    res
+    .attachment(filename)
+    .on('close', function () {
+      return res.end();
+    });
+
+    stream
+    .on('error', function (err) {
+      res.end();
+    })
+    .pipe(res);
+  });
+});
+
+
 app.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
