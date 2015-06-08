@@ -166,7 +166,7 @@ var MangaViewer = React.createClass({
       );
     });
 
-    var info = (current + 1) + '/' + this.props.data.images.length;
+    var info = this.props.data.title + ' ' + (current + 1) + '/' + this.props.data.images.length;
 
     return (
       <div className="mangaview">
