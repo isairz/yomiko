@@ -2,5 +2,5 @@ node_modules
 dist
 
 # Configs
-config.json
-!config.sample.json
+config.js
+!config.example.js
