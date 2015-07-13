@@ -1,17 +1,27 @@
-var path = require('path');
-var webpack = require('webpack');
-var WebpackDevServer = require('webpack-dev-server');
-var config = require('./webpack.config');
+var express = require('express');
+var compress = require('compression');
+var request = require('request');
+var config = require('./config');
 
-new WebpackDevServer(webpack(config), {
-  contentBase: path.join(__dirname, './dist'),
-  publicPath: config.output.publicPath,
-  historyApiFallback: true,
-  hot: true,
-  stats: {
-    colors: true
-  }
-}).listen(2643, 'localhost', function (err) {
-  if (err) console.log(err);
-  console.log('Listening at localhost:2643');
+// all environments
+var app = express();
+app.set('port', config.PORT || 2643);
+app.use(compress());
+
+app.use('/assets', express.static('dist'));
+
+app.get('/image-proxy', function (req, res) {
+  request(req.query.src)
+  .on('error', function (err) {
+    res.sendStatus(404);
+  })
+  .pipe(res)
+});
+
+app.get('*', function (req, res) {
+  res.sendFile(__dirname + '/dist/index.html')
+});
+
+app.listen(app.get('port'), function(){
+  console.log('Express server listening on port ' + app.get('port'));
 });

@@ -6,7 +6,8 @@
   "scripts": {
     "build": "npm run clean && npm run lint && webpack",
     "clean": "rm -rf dist",
-    "lint": "eslint lib"
+    "lint": "eslint lib",
+    "dist": "npm run build -- --config webpack.config.production.js"
   },
   "repository": {
     "type": "git",
