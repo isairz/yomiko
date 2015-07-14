@@ -25,6 +25,8 @@
   "homepage": "https://github.com/isairz/yomiko",
   "dependencies": {
     "babel-runtime": "^5.6.15",
+    "compression": "^1.5.1",
+    "express": "^4.13.1",
     "hammerjs": "^2.0.4",
     "material-ui": "^0.10.0",
     "parse-link-header": "^0.2.0",
