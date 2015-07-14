@@ -13,7 +13,7 @@ module.exports = {
   output: {
     filename: 'app.js',
     path: path.join(__dirname, 'dist'),
-    publicPath: '/assets/'
+    publicPath: '/'
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
@@ -27,7 +27,7 @@ module.exports = {
   ],
   module: {
     loaders: [
-      { test: /\.js$/, loaders: ['react-hot', 'babel'], exclude: /node_modules/ }
+      { test: /\.js$/, loaders: ['react-hot', 'babel'], exclude: /node_modules/ },
     ]
   }
 };

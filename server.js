@@ -7,7 +7,8 @@ var app = express();
 app.set('port', config.PORT || 2643);
 app.use(compress());
 
-app.use('/assets', express.static('dist'));
+app.use('/', express.static('dist'));
+app.use('/', express.static('public'));
 
 app.get('*', function (req, res) {
   res.sendFile(__dirname + '/dist/index.html')
