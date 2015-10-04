@@ -31,6 +31,7 @@
     "material-ui": "^0.10.0",
     "parse-link-header": "^0.2.0",
     "react": "^0.13.3",
+    "react-native": "^0.11.4",
     "react-router": "^1.0.0-bata3",
     "react-tap-event-plugin": "^0.1.7",
     "redux": "^0.12.0",
