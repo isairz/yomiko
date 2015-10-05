@@ -7,10 +7,7 @@
     "build": "npm run clean && npm run lint && webpack",
     "clean": "rm -rf dist",
     "lint": "eslint lib",
-    "dist": "npm run build -- --config webpack.config.production.js",
-    "start": "react-native-webpack-server start",
-    "hot": "HOT=1 react-native-webpack-server start --hot",
-    "bundle": "react-native-webpack-server bundle"
+    "dist": "npm run build -- --config webpack.config.production.js"
   },
   "repository": {
     "type": "git",
@@ -27,6 +24,7 @@
   },
   "homepage": "https://github.com/isairz/yomiko",
   "dependencies": {
+    "babel-runtime": "^5.6.15",
     "compression": "^1.5.1",
     "express": "^4.13.1",
     "hammerjs": "^2.0.4",
@@ -40,18 +38,16 @@
     "whatwg-fetch": "^0.9.0"
   },
   "devDependencies": {
-    "babel": "^5.8.23",
-    "babel-core": "^5.8.25",
+    "babel": "^5.6.14",
+    "babel-core": "^5.6.15",
     "babel-eslint": "^3.1.23",
-    "babel-loader": "^5.3.2",
-    "babel-plugin-react-transform": "^1.1.1",
-    "babel-runtime": "^5.8.25",
+    "babel-loader": "^5.3.1",
     "eslint": "^0.24.0",
     "eslint-plugin-react": "^2.6.4",
+    "extract-text-webpack-plugin": "^0.8.2",
+    "html-webpack-plugin": "^1.5.2",
     "react-hot-loader": "^1.2.7",
-    "react-native-webpack-server": "^0.6.0",
-    "react-transform-hmr": "^1.0.1",
-    "webpack": "^1.12.2",
-    "webpack-dev-server": "^1.12.0"
+    "webpack": "^1.10.1",
+    "webpack-dev-server": "^1.10.1"
   }
 }
