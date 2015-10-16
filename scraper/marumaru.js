@@ -24,21 +24,22 @@ var req = function () {
   var requestBase = request.defaults({
     jar: jar,
     headers: {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.65 Safari/537.36'
+      'User-Agent': 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_2_1 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8C148 Safari/6533.18.5'
     }
   });
   var requestLogin = request.defaults({
     jar: jar,
     headers: {
       'Referer': 'http://www.mangaumaru.com/archives/114053',
-      'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.65 Safari/537.36',
+      'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36',
       'Origin': 'http://www.mangaumaru.com'
     }
   });
 
   var _req = function (url, callback) {
     function tryRequest(url, callback) {
-      requestBase(url, function(err, res, body) {
+      var getOrPost = url.indexOf('http://www.mangaumaru.com/archives/') == 0 ? requestBase.post : requestBase;
+      getOrPost(url, function(err, res, body) {
         if (err) {
           callback(err, res, body);
         } else if (body.indexOf('document.cookie=\'sucuri_uidc=') != -1) {
@@ -90,7 +91,7 @@ var req = function () {
 
 var scrapers = [
   function ($, callback) {
-    var list = $('#widget_bbs_review01');
+    var list = $('.widget_review01');
     if (!list.length) {
       callback(undefined);
       return;
@@ -102,7 +103,7 @@ var scrapers = [
         var link = 'http://marumaru.in' + $(li).find('a').attr('href');
 
         return {
-          thumbnail: $(li).find('img').attr('src'),
+          thumbnail: $(li).find('img').attr('data-original'),
           title: $(li).text().trim(),
           link: link
         };
@@ -116,7 +117,13 @@ var scrapers = [
       return;
     }
     // manipulate
+    content.children('.tag').remove();
+    content.children('.attach').remove();
+    content.children('.center').remove();
     content.children('.snsbox').remove();
+    content.children().last().remove();
+    content.children().last().remove();
+    content.children().last().remove();
     content.children().last().remove();
 
     // FIXME: thumbnail.
