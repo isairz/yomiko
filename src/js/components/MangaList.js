@@ -33,6 +33,7 @@ var MangaNode = React.createClass({
 var MangaList = React.createClass({
   getInitialState: function () {
     return {
+      keyword: '',
       firstElement: 0,
       lastElement: 10,
       heightPerNode: 112
@@ -48,9 +49,16 @@ var MangaList = React.createClass({
     window.removeEventListener('scroll', this._onScroll, this, false);
   },
 
+  componentWillUpdate: function (nextProps, nextState) {
+    if (nextProps.data !== this.props.data) {
+      this.refs.search.getDOMNode().value = '';
+      nextState.keyword = '';
+    }
+  },
+
   render: function () {
     var mangaNodes = this.props.data.filter(function (manga) {
-      return manga.title.toLowerCase().indexOf(this.props.keyword.toLowerCase()) >= 0;
+      return manga.title.toLowerCase().indexOf(this.state.keyword.toLowerCase()) >= 0;
     }.bind(this))
     .map(function (manga, idx) {
       return <MangaNode hidden={idx < this.state.firstElement || idx > this.state.lastElement} data={manga} load={this.props.load} />
@@ -58,11 +66,21 @@ var MangaList = React.createClass({
 
     return (
       <div className="listview">
+        <div className="header">
+          <input ref="search" className="search" placeholder="search title" onInput={this._onSearch} />
+        </div>
         <ul>
           {mangaNodes}
         </ul>
       </div>
     );
+  },
+
+  _onSearch: function () {
+    var keyword = this.refs.search.getDOMNode().value;
+    this.setState({
+      keyword: keyword
+    });
   },
 
   _onScroll: function(e) {
