@@ -1,4 +1,5 @@
 var React = require('react');
+var LoadingPage = require('./LoadingPage');
 var ErrorPage = require('./ErrorPage');
 var MangaList = require('./MangaList');
 var MangaViewer = require('./MangaViewer');
@@ -34,6 +35,9 @@ var ViewerApp = React.createClass({
       case 'error':
         content = <ErrorPage data={this.state.data} />;
         break;
+      case 'loading':
+        content = <LoadingPage />;
+        break;
     }
 
     return (
@@ -55,6 +59,7 @@ var ViewerApp = React.createClass({
   },
 
   _load: function (url) {
+    this.setState({data:{type:'loading'}});
     var encoded = encodeURIComponent(url || this._initUrl());
     var newLocation = location.origin + (!encoded ? '' : '/?link=' + encoded);
     if (history.state && newLocation != location.href) {
