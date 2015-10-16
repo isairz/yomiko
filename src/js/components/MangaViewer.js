@@ -181,6 +181,7 @@ var MangaViewer = React.createClass({
   },
 
   _onKeyDown: function (e) {
+    e.preventDefault();
     switch(e.key || e.keyIdentifier) {
       case 'Up':
       case 'Right':
@@ -202,6 +203,7 @@ var MangaViewer = React.createClass({
   },
 
   _onWheel: function (e) {
+    e.preventDefault();
     if (e.deltaY < 0) {
       this._prevPage();
     } else if (e.deltaY > 0) {
@@ -238,6 +240,7 @@ var MangaViewer = React.createClass({
     }
 
     var onPan = function (e) {
+      e.preventDefault();
       translateX = (100 / self.getDOMNode().offsetWidth) * e.deltaX;
 
       if (e.type == 'panend' || e.type == 'pancancel') {
@@ -263,6 +266,7 @@ var MangaViewer = React.createClass({
     }
 
     var onDoubleTap = function (e) {
+      e.preventDefault();
       self._toggleFullScreen();
     }
 

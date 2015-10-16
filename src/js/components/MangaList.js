@@ -13,8 +13,8 @@ var MangaNode = React.createClass({
 
     return (
       <li className="manga">
-        <a ref='link' href={link} onClick={this._onClick}>
-          <div className={(this.props.hidden ? 'hidden_elem' : '') + ' thumbnail'} style={{backgroundImage:'url('+imgSrc+')'}} />
+        <a ref='link' href={'/?link=' + encodeURIComponent(link)} rawurl={link} onClick={this._onClick}>
+          <div className='thumbnail' style={{backgroundImage:(this.props.hidden ? 'url()' : 'url('+imgSrc+')')}} />
           <h3 className="title">{this.props.data.title}</h3>
         </a>
       </li>
@@ -22,8 +22,10 @@ var MangaNode = React.createClass({
   },
 
   _onClick: function (e) {
-    var url = this.refs.link.props.href;
-    console.log(this.refs.link);
+    if (e.ctrlKey || e.altKey || e.shiftKey) {
+      return;
+    }
+    var url = this.refs.link.props.rawurl;
     this.props.load(url);
     e.stopPropagation();
     return false;
