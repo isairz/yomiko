@@ -28,6 +28,7 @@
     "compression": "~1.2.1",
     "express": "^4.10.4",
     "hammerjs": "~2.0.4",
+    "hangul-js": "^0.1.6",
     "jade": "*",
     "react": "^0.12.1",
     "react-spinkit": "^1.1.4",

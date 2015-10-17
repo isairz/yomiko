@@ -1,4 +1,5 @@
 var React = require('react');
+var Hangul = require('hangul-js');
 
 var MangaNode = React.createClass({
   render: function () {
@@ -59,8 +60,9 @@ var MangaList = React.createClass({
   },
 
   render: function () {
+    var reg = new RegExp(Hangul.disassemble(this.state.keyword).join('.*'), 'i');
     var mangaNodes = this.props.data.filter(function (manga) {
-      return manga.title.toLowerCase().indexOf(this.state.keyword.toLowerCase()) >= 0;
+      return reg.exec(Hangul.disassemble(manga.title).join(''));
     }.bind(this))
     .map(function (manga, idx) {
       return <MangaNode hidden={idx < this.state.firstElement || idx > this.state.lastElement} data={manga} load={this.props.load} />
