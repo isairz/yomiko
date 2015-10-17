@@ -230,7 +230,14 @@ function resolveLinks(baseUri, data) {
   return data;
 }
 
+
 marumaru.scrap = function (link, callback) {
+  var cachedData = cachedPage(link);
+  if (cachedData) {
+    callback(cachedData);
+    return;
+  }
+
   link = decodeURIComponent(link);
   link = link.replace("www.umaumaru.com", "www.mangaumaru.com");
   req(link, function (err, res, body) {
@@ -261,6 +268,33 @@ marumaru.scrap = function (link, callback) {
     next(0);
   });
 };
+
+var cachedUrl = 'http://marumaru.in/p/mobilemangamain';
+var cachedData;
+var cachedTime;
+
+function cachedPage(link) {
+  if (link !== cachedUrl) {
+    return;
+  }
+
+  if (!cachedData) {
+    return;
+  }
+
+  return cachedData;
+}
+
+function cachePage() {
+  marumaru.scrap(cachedUrl, function (data) {
+    cachedTime = new Date().getTime();
+    cachedData = data;
+  });
+}
+
+cachePage();
+setInterval(cachePage, 1200000); // for 20min
+
 
 marumaru.episodeToZip = function (link, callback) {
   var archive = archiver('zip');
