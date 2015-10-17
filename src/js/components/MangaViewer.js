@@ -132,7 +132,9 @@ var MangaViewer = React.createClass({
     return {
       page: 0,
       translateX: 0,
-      animate: false
+      animate: false,
+      preloadStart: 0,
+      preloadEnd: 5,
     };
   },
 
@@ -148,6 +150,13 @@ var MangaViewer = React.createClass({
     // FIXME: detach touch event.
   },
 
+  componentWillUpdate: function (nextProps, nextState) {
+    if (!nextState.animate && !nextState.translateX) {
+      nextState.preloadStart = nextState.page - 1;
+      nextState.preloadEnd = nextState.page + 5;
+    }
+  },
+
   render: function () {
     var self = this;
     var current = this.state.page;
@@ -156,7 +165,7 @@ var MangaViewer = React.createClass({
         <MangaPage
           ref={page===current ? 'current' : ''}
           page={page}
-          preload={page>=current-2 && page<=current+2}
+          preload={page>=self.state.preloadStart && page<=self.state.preloadEnd}
           position={page===current ? 'current' : page<=current ? 'prev' : 'next'}
           offset={page===current-1 ? {x: 100} : page===current+1 ? {x: -100} : {}}
           translateX={(page>=current-1 && page<=current+1) ? self.state.translateX : null}
