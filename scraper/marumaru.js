@@ -97,7 +97,7 @@ var scrapers = [
       return;
     }
     callback({
-      type: 'list',
+      type: 'manga list',
       title: 'marumaru',
       data: [].map.call(list.find('li'), function (li) {
         var link = 'http://marumaru.in' + $(li).find('a').attr('href');

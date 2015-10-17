@@ -37,7 +37,8 @@ var MangaList = React.createClass({
     return {
       keyword: '',
       firstElement: 0,
-      lastElement: 10,
+      lastElement: 40,
+      nodePerColumn: 1,
       heightPerNode: 112
     };
   },
@@ -45,6 +46,16 @@ var MangaList = React.createClass({
   componentDidMount: function () {
     window.addEventListener('scroll', this._onScroll, this, false);
     this._onScroll();
+
+    var container = this.refs.container.getDOMNode();
+    var node = container.querySelector('li');
+    var containerWidth = container.getClientRects()[0].width;
+    var nodeWidth = node.getBoundingClientRect().width;
+    var nodeHeight = node.getBoundingClientRect().height;
+    this.setState({
+      nodePerColumn: Math.floor(containerWidth / nodeWidth),
+      heightPerNode: nodeHeight,
+    })
   },
 
   componentWillUnmount: function () {
@@ -67,11 +78,11 @@ var MangaList = React.createClass({
     }.bind(this));
 
     return (
-      <div className="listview">
+      <div className={'listview ' + this.props.className}>
         <div className="header">
           <input ref="search" className="search" placeholder="search title" onInput={this._onSearch} />
         </div>
-        <ul>
+        <ul ref="container">
           {mangaNodes}
         </ul>
       </div>
@@ -88,13 +99,14 @@ var MangaList = React.createClass({
   _onScroll: function(e) {
     var top = window.scrollY;
     var bottom = top + window.innerHeight;
-    var firstElement = Math.floor(top/this.state.heightPerNode);
-    var lastElement = Math.floor(bottom/this.state.heightPerNode);
+    var c = this.state.nodePerColumn;
+    var firstElement = Math.floor(top/this.state.heightPerNode) * c;
+    var lastElement = Math.floor(bottom/this.state.heightPerNode) * c;
 
     if (firstElement < this.state.firstElement || lastElement > this.state.lastElement) {
       this.setState({
-        firstElement: firstElement-5,
-        lastElement: lastElement+5
+        firstElement: firstElement-5*c,
+        lastElement: lastElement+5*c
       });
     }
   }

@@ -26,8 +26,11 @@ var ViewerApp = React.createClass({
   render: function () {
     var content = null;
     switch (this.state.data.type) {
+      case 'manga list':
+        content = <MangaList className="mangalist" load={this._load} data={this.state.data.data}/>;
+        break;
       case 'list':
-        content = <MangaList keyword={this.state.searchKeyword} load={this._load} data={this.state.data.data}/>;
+        content = <MangaList load={this._load} data={this.state.data.data}/>;
         break;
       case 'manga':
         content = <MangaViewer data={this.state.data} />;
@@ -47,10 +50,6 @@ var ViewerApp = React.createClass({
         </div>
       </div>
     );
-  },
-
-  _search: function (keyword) {
-    this.setState({searchKeyword: keyword});
   },
 
   _initUrl: function () {
