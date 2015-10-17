@@ -31,7 +31,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/image-proxy', function (req, res) {
-  request(req.query.src)
+  request(encodeURI(req.query.src))
   .on('error', function (err) {
     res.sendStatus(404);
   })
@@ -44,11 +44,11 @@ app.get('/api/*', function (req, res) {
     return;
   }
 
-  maru.scrap(req.query.link, res.json.bind(res));
+  maru.scrap(encodeURI(req.query.link), res.json.bind(res));
 });
 
 app.get('/download/*', function (req, res) {
-  maru.episodeToZip(req.query.link, function(filename, stream) {
+  maru.episodeToZip(encodeURI(req.query.link), function(filename, stream) {
     res
     .attachment(filename)
     .on('close', function () {
