@@ -190,22 +190,25 @@ var MangaViewer = React.createClass({
   },
 
   _onKeyDown: function (e) {
-    e.preventDefault();
     switch(e.key || e.keyIdentifier) {
       case 'Up':
       case 'Right':
       case 'PageUp':
+        e.preventDefault();
         this._prevPage();
         break;
       case 'Down':
       case 'Left':
       case 'PageDown':
+        e.preventDefault();
         this._nextPage();
         break;
       case 'Home':
+        e.preventDefault();
         this._firstPage();
         break;
       case 'End':
+        e.preventDefault();
         this._lastPage();
         break;
     }
