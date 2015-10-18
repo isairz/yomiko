@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
-'use strict';
-
 var React = require('react-native');
 var {
   AppRegistry,
@@ -11,6 +5,8 @@ var {
   Text,
   View,
 } = React;
+
+var WebViewExample = require('./WebViewExample');
 
 var yomiko = React.createClass({
   render: function() {
