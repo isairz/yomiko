@@ -213,20 +213,23 @@ var scrapers = [
     });
   },
   function ($, callback) {
-    var content = $('article p');
-    if (!content.length) {
+    let article = $('article');
+    if (!article.length) {
       callback(undefined);
       return;
     }
 
+    let attr = 'data-lazy-src';
+    let list = $(article).find('img[' + attr + ']');
+
+    let images = list.map(function () {
+      return $(this).attr(attr);
+    }).get();
+
     callback({
       type: 'manga',
       title: $('#content .entry-title').text().trim(),
-      images: [].map.call(content.find('img'), function (img) {
-        var parent = $(img).parent().get(0);
-        return parent.name === 'a' && parent.attribs['href'].indexOf('imgur.com/') === -1 ? parent.attribs['href']
-          : img.attribs['data-lazy-src'] || img.attribs['src'];
-        })
+      images: images,
     });
   }
 ];
