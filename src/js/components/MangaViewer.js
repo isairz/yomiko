@@ -12,6 +12,8 @@ var requestAnimationFrame = window.requestAnimationFrame || (function() {
 })();
 
 var MangaPage = React.createClass({
+  timer: null,
+
   getInitialState: function () {
     return {
       loaded: false,
@@ -64,7 +66,8 @@ var MangaPage = React.createClass({
       pageStyle.webkitTransform = pageStyle.transform;
     }
 
-    setTimeout(this._onTimeout, 5000);
+    clearTimeout(this.timer);
+    this.timer = setTimeout(this._onTimeout, 5000);
     return (
       <div
         className={classNames.join(' ')}
@@ -81,6 +84,7 @@ var MangaPage = React.createClass({
   },
 
   _onLoad: function () {
+    clearTimeout(this.timer);
     var img = this.refs.image.getDOMNode();
     if (autoSlice && img.naturalWidth / img.naturalHeight > 1.2) {
       this.setState({double: 'right'});
@@ -93,14 +97,13 @@ var MangaPage = React.createClass({
   },
 
   _onTimeout: function() {
-    console.log(this.state.loaded);
     if (this.state.loaded) {
       return;
     }
 
-    console.log(this.state.loaded, this._src());
     this._retryWithProxy();
-    setTimeout(this._onTimeout, 5000);
+    clearTimeout(this.timer);
+    this.timer = setTimeout(this._onTimeout, 5000);
   },
 
   _src: function () {
@@ -119,7 +122,8 @@ var MangaPage = React.createClass({
       this.setState({proxy: true, retried: this.state.retried+1});
       return;
     }
-    setTimeout(this.setState.bind(this, {retried: this.state.retried+1}), 1000);
+    clearTimeout(this.timer);
+    this.timer = setTimeout(this.setState.bind(this, {retried: this.state.retried+1}), 1000);
   },
 
   _prevPage: function() {
