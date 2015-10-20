@@ -98,13 +98,13 @@
 }
 
 .listview.mangalist li {
+  width: 10%;
   vertical-align: top;
-  width: 14.2857143%;
 }
 
-
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1400px) {
   .listview.mangalist li {
+    width: 14.2857143%;
     width: 20%;
   }
 }
@@ -127,8 +127,12 @@
   }
 }
 
+.listview.mangalist li > a {
+  border: 1px solid black;
+ }
+
 .listview.mangalist li div.thumbnail {
-  width: 100%;
+  width: initial;
   height: 0;
   padding-bottom: 140%;
   position: relative;

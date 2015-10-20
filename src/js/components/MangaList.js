@@ -37,9 +37,7 @@ var MangaList = React.createClass({
     return {
       keyword: '',
       firstElement: 0,
-      lastElement: 40,
-      nodePerColumn: 1,
-      heightPerNode: 112
+      lastElement: 11,
     };
   },
 
@@ -47,15 +45,6 @@ var MangaList = React.createClass({
     window.addEventListener('scroll', this._onScroll, this, false);
     this._onScroll();
 
-    var container = this.refs.container.getDOMNode();
-    var node = container.querySelector('li');
-    var containerWidth = container.getClientRects()[0].width;
-    var nodeWidth = node.getBoundingClientRect().width;
-    var nodeHeight = node.getBoundingClientRect().height;
-    this.setState({
-      nodePerColumn: Math.floor(containerWidth / nodeWidth),
-      heightPerNode: nodeHeight,
-    })
   },
 
   componentWillUnmount: function () {
@@ -97,16 +86,22 @@ var MangaList = React.createClass({
   },
 
   _onScroll: function(e) {
+    var container = this.refs.container.getDOMNode();
+    var node = container.querySelector('li');
+    var containerWidth = container.getClientRects()[0].width;
+    var nodeWidth = node.getBoundingClientRect().width;
+    var nodeHeight = node.getBoundingClientRect().height;
+
     var top = window.scrollY;
     var bottom = top + window.innerHeight;
-    var c = this.state.nodePerColumn;
-    var firstElement = Math.floor(top/this.state.heightPerNode) * c;
-    var lastElement = Math.floor(bottom/this.state.heightPerNode) * c;
+    var c = Math.floor(containerWidth / nodeWidth);
+    var firstElement = Math.floor(top/nodeHeight) * c;
+    var lastElement = Math.floor(bottom/nodeHeight + 1) * c;
 
     if (firstElement < this.state.firstElement || lastElement > this.state.lastElement) {
       this.setState({
-        firstElement: firstElement-5*c,
-        lastElement: lastElement+5*c
+        firstElement: firstElement - 1 * c,
+        lastElement: lastElement + 3 * c
       });
     }
   }
