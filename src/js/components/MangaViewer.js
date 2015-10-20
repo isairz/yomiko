@@ -64,6 +64,7 @@ var MangaPage = React.createClass({
       pageStyle.webkitTransform = pageStyle.transform;
     }
 
+    setTimeout(this._onTimeout, 5000);
     return (
       <div
         className={classNames.join(' ')}
@@ -89,6 +90,17 @@ var MangaPage = React.createClass({
 
   _onError: function () {
     this._retryWithProxy();
+  },
+
+  _onTimeout: function() {
+    console.log(this.state.loaded);
+    if (this.state.loaded) {
+      return;
+    }
+
+    console.log(this.state.loaded, this._src());
+    this._retryWithProxy();
+    setTimeout(this._onTimeout, 5000);
   },
 
   _src: function () {
