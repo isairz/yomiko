@@ -45,7 +45,6 @@
 
 .listview li {
   position: relative;
-  background: #242424;
   border-bottom: 1px  solid #121211;
   border-top: 1px solid #444442;
   min-height: 110px;
@@ -53,17 +52,26 @@
   width: 100%;
 }
 
-.listview li:hover, .manga-list li:active {
-  background: #121211!important;
-}
+
 
 .listview li a {
+  background: #242424;
   text-decoration: none;
   transition: all .2s linear;
   display: block;
   min-height: 110px;
-  width: 100%;
+  width: initial;
+  background: #242424;
 }
+
+.listview li a:visited {
+  background: #323232;
+}
+
+.listview li a:hover, .manga-list li a:active {
+  background: #121211!important;
+}
+
 
 .listview li div.thumbnail {
   border: 2px solid #444442;
