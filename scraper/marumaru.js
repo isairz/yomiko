@@ -6,6 +6,7 @@ var async = require('async');
 var archiver = require('archiver');
 var path = require('path');
 var url = require('url');
+var vm = require('vm');
 
 var config;
 
@@ -38,14 +39,24 @@ var req = function () {
 
   var _req = function (url, callback) {
     function tryRequest(url, callback) {
-      var getOrPost = url.indexOf('http://www.mangaumaru.com/archives/') == 0 ? requestBase.post : requestBase;
-      getOrPost(url, function(err, res, body) {
+      requestBase(url, function(err, res, body) {
         if (err) {
           callback(err, res, body);
         } else if (body.indexOf('document.cookie=\'sucuri_uidc=') != -1) {
           // sucuri ddos protector
           var cookieRegex = /document\.cookie\.indexOf\('(sucuri_uidc=\w+)'\)/.exec(body);
           jar.setCookie(cookieRegex[1], url);
+          tryRequest(url, callback);
+        } else if (body.indexOf('sucuri_cloudproxy_js=') != -1) {
+          // sucuri ddos protector
+          var script = /<script>([\s\S]*?)<\/script>/.exec(body)[1];
+          var sandbox = {
+            document: {},
+            location: {reload: function() {}},
+          };
+
+          var script = vm.runInNewContext(script, sandbox);
+          jar.setCookie(sandbox.document.cookie, url);
           tryRequest(url, callback);
         } else if (body.indexOf('http://www.mangaumaru.com/wp-login.php?action=postpass') != -1) {
           // login for protected manga.
