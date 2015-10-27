@@ -221,6 +221,11 @@ var scrapers = [
 
     let attr = 'data-lazy-src';
     let list = $(article).find('img[' + attr + ']');
+    if (!list || !list.length) {
+      attr = 'src';
+      list = $(article).find('img[' + attr + ']');
+    }
+
 
     let images = list.map(function () {
       return $(this).attr(attr);
