@@ -1,9 +1,9 @@
 {
-  "name": "Proejct Yomiko",
-  "icon": [
+  "name": "Project Yomiko",
+  "icons": [
     {
       "src": "favicon.png",
-      "sizes": "48x48",
+      "sizes": "200x200",
       "type": "image/png",
       "density": "1.0"
     }
