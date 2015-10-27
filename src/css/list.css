@@ -41,6 +41,7 @@
   padding: 0;
   padding-top: 47px;
   font-size: 0;
+  overflow: hidden;
 }
 
 .listview li {
