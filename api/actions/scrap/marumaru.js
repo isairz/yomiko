@@ -8,16 +8,6 @@ var path = require('path');
 var url = require('url');
 var vm = require('vm');
 
-var config;
-
-try {
-  config = require('../config.json');
-} catch (e) {
-  console.log(e);
-  console.warn("config isn't exist.\nRunning as default settings");
-  config = require('../config.sample.json');
-}
-
 var marumaru = module.exports = {};
 
 var req = function () {
@@ -90,7 +80,7 @@ var req = function () {
     console.log('Login Try!');
     requestLogin.post(
       'http://www.mangaumaru.com/wp-login.php?action=postpass',
-      {form: {post_password: config.wp_password, Submit: 'Submit'}},
+      {form: {post_password: 'qndxkr', Submit: 'Submit'}},
       callback
     );
   }
@@ -257,7 +247,6 @@ marumaru.scrap = function (link, callback) {
     return;
   }
 
-  link = decodeURIComponent(link);
   link = link.replace("www.umaumaru.com", "www.mangaumaru.com");
   req(link, function (err, res, body) {
     if (err) {
@@ -313,41 +302,3 @@ function cachePage() {
 
 cachePage();
 setInterval(cachePage, 1200000); // for 20min
-
-
-marumaru.episodeToZip = function (link, callback) {
-  var archive = archiver('zip');
-  marumaru.scrap(link, function(episode) {
-    var images = episode.images;
-    var pageLength = images.length.toString().length;
-    var padZeros = function (idx) {
-      var str = idx.toString();
-      return str.length < pageLength ? padZeros("0" + str) : str;
-    }
-    var dirName = function (str) {
-      return str
-        .replace(/</g, '〈')
-        .replace(/>/g, '〉')
-        .replace(/\?/g, '？')
-        .replace(/!/g, '！')
-        .replace(/\"/g, '＂')
-        .replace(/\'/g, '＇')
-        .replace(/\*/g, '＊')
-        .replace(/:/g, '：')
-        .replace(/\//g, '／')
-        .replace(/\\/g, '＼');
-    }
-
-    for(var i in images) {
-      var imageStream = req.requestBase({url: images[i], encoding: null})
-        .on('error', function (err) {
-          archive.abort();
-          archive.emit('error', err);
-        });
-      archive.append(imageStream, { name: padZeros(-~i) + path.extname(images[i]).split('?')[0] });
-    }
-    archive.finalize();
-    callback(dirName(episode.title || encodeURIComponent(link)) + '.zip', archive);
-  });
-  return this;
-}

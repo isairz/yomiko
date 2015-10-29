@@ -25,7 +25,6 @@ app.use(session({
 }));
 app.use(bodyParser.json());
 
-
 app.use((req, res) => {
 
   const matcher = req.url.split('?')[0].split('/').slice(1);
@@ -49,10 +48,13 @@ app.use((req, res) => {
     ++sliceIndex;
   }
 
+
   if (action && typeof action === 'function') {
-    action(req, params)
+    action(req, res, params)
       .then((result) => {
-        res.json(result);
+        if (result !== undefined)  {
+          res.json(result);
+        }
       }, (reason) => {
         if (reason && reason.redirect) {
           res.redirect(reason.redirect);
