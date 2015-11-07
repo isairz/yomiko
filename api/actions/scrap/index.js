@@ -2,9 +2,9 @@ import marumaru from './marumaru';
 const main = require('./main.json');
 
 export default function scrap(req) {
-  const link = decodeURIComponent(req.query.link);
+  const link = req.query.link;
   if (!link) {
-    return Promise.reslove(main);
+    return Promise.resolve(main);
   }
 
   return new Promise((resolve) => {
