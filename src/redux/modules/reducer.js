@@ -6,6 +6,7 @@ import auth from './auth';
 import counter from './counter';
 import {reducer as form} from 'redux-form';
 import info from './info';
+import scrap from './scrap';
 import widgets from './widgets';
 
 export default combineReducers({
@@ -18,5 +19,6 @@ export default combineReducers({
     counter3: counter
   }),
   info,
+  scrap,
   widgets
 });
