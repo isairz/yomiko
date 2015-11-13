@@ -36,9 +36,10 @@ export function isLoaded(globalState) {
   return globalState.scrap && globalState.scrap.loaded;
 }
 
-export function load(uri) {
+export function load(link) {
+  console.log('link: ' + link);
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => client.get('/scrap' + (!uri ? '' : '/?link=' + encodeURIComponent(uri)))
+    promise: (client) => client.get('/scrap' + (!link ? '' : '/?link=' + encodeURIComponent(link)))
   };
 }

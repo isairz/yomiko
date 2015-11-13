@@ -3,36 +3,40 @@ import DocumentMeta from 'react-document-meta';
 import { connect } from 'react-redux';
 import * as scrapActions from 'redux/modules/scrap';
 import { isLoaded, load as loadScrap } from 'redux/modules/scrap';
-import { initializeWithKey } from 'redux-form';
+import connectData from 'helpers/connectData';
 
+function fetchDataDeferred(getState, dispatch) {
+  if (!isLoaded(getState())) {
+    const link = getState().router.location.query.link;
+    console.log(link);
+    return dispatch(loadScrap(link));
+  }
+}
+
+@connectData(null, fetchDataDeferred)
 @connect(
   state => ({
     scrap: state.scrap.data.data, // FIXME
     error: state.scrap.error,
+    title: state.scrap.data.title, // FIXME
     loading: state.scrap.loading
   }),
-  {...scrapActions, initializeWithKey })
+  {...scrapActions })
 export default
 class Scrap extends Component {
   static propTypes = {
+    title: PropTypes.string,
     scrap: PropTypes.array,
     error: PropTypes.string,
     loading: PropTypes.bool,
-    initializeWithKey: PropTypes.func.isRequired,
-    editing: PropTypes.object.isRequired,
     load: PropTypes.func.isRequired,
-    editStart: PropTypes.func.isRequired
-  }
-
-  static fetchDataDeferred(getState, dispatch) {
-    if (!isLoaded(getState())) {
-      return dispatch(loadScrap());
-    }
+    location: PropTypes.object.isRequired,
   }
 
   render() {
-    const {scrap, error, loading, load} = this.props;
-    console.log(this.props);
+    const { title, scrap, error, loading, load } = this.props;
+    const link = this.props.location.query.link;
+
     let refreshClassName = 'fa fa-refresh';
     if (loading) {
       refreshClassName += ' fa-spin';
@@ -40,13 +44,10 @@ class Scrap extends Component {
     const styles = require('./Scrap.scss');
     return (
       <div className={styles.scrap + ' container'}>
-        <h1>
-          Widgets
-          <button className={styles.refreshBtn + ' btn btn-success'} onClick={() => load()}><i
-            className={refreshClassName}/> {' '} Reload Scrap
-          </button>
-        </h1>
-        <DocumentMeta title="React Redux Example: Widgets"/>
+        <button className={styles.refreshBtn + ' btn btn-success'} onClick={() => load(link)}><i
+          className={refreshClassName}/> {' '} Reload Scrap
+        </button>
+        <DocumentMeta title={title}/>
         {error &&
         <div className="alert alert-danger" role="alert">
           <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
