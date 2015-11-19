@@ -3,7 +3,8 @@ const LOAD_SUCCESS = 'redux-example/scrap/LOAD_SUCCESS';
 const LOAD_FAIL = 'redux-example/scrap/LOAD_FAIL';
 
 const initialState = {
-  loaded: false
+  loaded: false,
+  loadedURI: '',
 };
 
 export default function scrap(state = initialState, action = {}) {
@@ -18,6 +19,7 @@ export default function scrap(state = initialState, action = {}) {
         ...state,
         loading: false,
         loaded: true,
+        loadedURI: action.link,
         data: action.result
       };
     case LOAD_FAIL:
@@ -32,14 +34,14 @@ export default function scrap(state = initialState, action = {}) {
   }
 }
 
-export function isLoaded(globalState) {
-  return globalState.scrap && globalState.scrap.loaded;
+export function isLoaded(globalState, link) {
+  return globalState.scrap && globalState.scrap.loaded && globalState.scrap.loadedURI === link;
 }
 
 export function load(link) {
-  console.log('link: ' + link);
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
+    link: link,
     promise: (client) => client.get('/scrap' + (!link ? '' : '/?link=' + encodeURIComponent(link)))
   };
 }

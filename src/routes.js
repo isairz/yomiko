@@ -51,6 +51,8 @@ export default (store) => {
       <Route path="login" component={Login}/>
       <Route path="survey" component={Survey}/>
       <Route path="widgets" component={Widgets}/>
+
+      { /* Scrap Application */ }
       <Route path="scrap(/:site(/:manga(/:chapter)))" component={Scrap}/>
 
       { /* Catch all route */ }

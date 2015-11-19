@@ -100,7 +100,7 @@ var scrapers = [
     callback({
       type: 'manga list',
       title: 'marumaru',
-      data: [].map.call(list.find('li'), function (li) {
+      list: [].map.call(list.find('li'), function (li) {
         var link = 'http://marumaru.in' + $(li).find('a').attr('href');
 
         return {
@@ -134,7 +134,7 @@ var scrapers = [
     callback({
       type: 'list',
       title: '[' + $("head meta[name=classification]").attr('content') + '] ' + $("head meta[name=subject]").attr('content'),
-      data: [].map.call(content.find('a'), function (link) {
+      list: [].map.call(content.find('a'), function (link) {
         return {
           thumbnail: thumbnail,
           title: $(link).text().trim(),
@@ -149,7 +149,7 @@ var scrapers = [
       callback(undefined);
       return;
     }
-    var data = [].map.call(articles, function (article) {
+    var list = [].map.call(articles, function (article) {
       var ar = $(article);
       return {
         thumbnail: ar.find('img').attr('src'),
@@ -162,13 +162,13 @@ var scrapers = [
     var next = $('.next.page-numbers').attr('href');
 
     if (prev) {
-      data.push({
+      list.push({
         title: 'Prev Page',
         link: prev
       });
     }
     if (next) {
-      data.push({
+      list.push({
         title: 'Next Page',
         link: next
       });
@@ -177,7 +177,7 @@ var scrapers = [
     callback({
       type: 'list',
       title: $("head title").text().trim(),
-      data: data
+      list: list
     });
   },
   function ($, callback) {
@@ -193,7 +193,7 @@ var scrapers = [
     callback({
       type: 'list',
       title: $("article #post_title").text(),
-      data: [].map.call(content.find('a'), function (link) {
+      list: [].map.call(content.find('a'), function (link) {
         return {
           thumbnail: thumbnail,
           title: $(link).text().trim(),

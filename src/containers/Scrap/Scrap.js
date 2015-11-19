@@ -1,14 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import DocumentMeta from 'react-document-meta';
 import { connect } from 'react-redux';
+import { MangaList, MangaViewer } from 'components';
 import * as scrapActions from 'redux/modules/scrap';
 import { isLoaded, load as loadScrap } from 'redux/modules/scrap';
 import connectData from 'helpers/connectData';
 
 function fetchDataDeferred(getState, dispatch) {
-  if (!isLoaded(getState())) {
-    const link = getState().router.location.query.link;
-    console.log(link);
+  const { location } = getState().router;
+  const link = location.query && location.query.link;
+  if (!isLoaded(getState(), link)) {
     return dispatch(loadScrap(link));
   }
 }
@@ -16,17 +17,15 @@ function fetchDataDeferred(getState, dispatch) {
 @connectData(null, fetchDataDeferred)
 @connect(
   state => ({
-    scrap: state.scrap.data.data, // FIXME
+    scrap: state.scrap.data,
     error: state.scrap.error,
-    title: state.scrap.data.title, // FIXME
     loading: state.scrap.loading
   }),
   {...scrapActions })
 export default
 class Scrap extends Component {
   static propTypes = {
-    title: PropTypes.string,
-    scrap: PropTypes.array,
+    scrap: PropTypes.object,
     error: PropTypes.string,
     loading: PropTypes.bool,
     load: PropTypes.func.isRequired,
@@ -34,50 +33,44 @@ class Scrap extends Component {
   }
 
   render() {
-    const { title, scrap, error, loading, load } = this.props;
-    const link = this.props.location.query.link;
+    const { scrap, error, loading, load, location } = this.props;
+    const link = location.query && location.query.link;
 
     let refreshClassName = 'fa fa-refresh';
     if (loading) {
       refreshClassName += ' fa-spin';
     }
+
+    let Child = null;
+    switch (scrap && scrap.type) {
+      case 'list':
+        Child = <MangaList list={scrap.list} />;
+        break;
+      case 'manga list':
+        Child = <MangaList className="mangalist" list={scrap.list} />;
+        break;
+      case 'manga':
+        Child = <MangaViewer images={scrap.images} />;
+        break;
+      default:
+        break;
+    }
+
     const styles = require('./Scrap.scss');
     return (
-      <div className={styles.scrap + ' container'}>
+      <div className={styles.scrap}>
         <button className={styles.refreshBtn + ' btn btn-success'} onClick={() => load(link)}><i
           className={refreshClassName}/> {' '} Reload Scrap
         </button>
-        <DocumentMeta title={title}/>
+        {scrap && scrap.title && <DocumentMeta title={scrap.title}/>}
         {error &&
         <div className="alert alert-danger" role="alert">
           <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
           {' '}
           {error}
         </div>}
-        {scrap && scrap.length &&
-        <table className="table table-striped">
-          <thead>
-          <tr>
-            <th className={styles.idCol}>ID</th>
-            <th className={styles.colorCol}>Color</th>
-            <th className={styles.sprocketsCol}>Sprockets</th>
-            <th className={styles.ownerCol}>Owner</th>
-            <th className={styles.buttonCol}></th>
-          </tr>
-          </thead>
-          <tbody>
-          {
-            scrap.map((li) =>
-              <tr>
-                <td className={styles.idCol}><img src={li.thumbnail}/></td>
-                <td className={styles.colorCol}>{li.title}</td>
-                <td className={styles.sprocketsCol}>{li.link}</td>
-              </tr>)
-          }
-          </tbody>
-        </table>}
+        {Child}
       </div>
     );
   }
 }
-
