@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import DocumentMeta from 'react-document-meta';
 import { connect } from 'react-redux';
 import { MangaList, MangaViewer } from 'components';
+import BodyStyle from 'body-style';
 import * as scrapActions from 'redux/modules/scrap';
 import { isLoaded, load as loadScrap } from 'redux/modules/scrap';
 import connectData from 'helpers/connectData';
@@ -59,10 +60,11 @@ class Scrap extends Component {
     const styles = require('./Scrap.scss');
     return (
       <div className={styles.scrap}>
-        <button className={styles.refreshBtn + ' btn btn-success'} onClick={() => load(link)}><i
-          className={refreshClassName}/> {' '} Reload Scrap
-        </button>
+        <BodyStyle style={{backgroundColor: 'black'}}/>
         {scrap && scrap.title && <DocumentMeta title={scrap.title}/>}
+        <button className={styles.refreshBtn} onClick={() => load(link)}>
+          <i className={refreshClassName}/> {' '}
+        </button>
         {error &&
         <div className="alert alert-danger" role="alert">
           <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
