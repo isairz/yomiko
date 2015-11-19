@@ -20,19 +20,19 @@ module.exports = Object.assign({
     meta: {
       charSet: 'utf-8',
       property: {
-        'og:site_name': 'React Redux Example',
-        'og:image': 'https://react-redux.herokuapp.com/logo.jpg',
-        'og:locale': 'en_US',
-        'og:title': 'React Redux Example',
-        'og:description': 'All the modern best practices in one example.',
+        'og:site_name': 'Project Yomiko',
+        'og:image': '/favicon.png',
+        'og:locale': 'ko_KR',
+        'og:title': 'Project Yomiko',
+        'og:description': 'A Beatiful Web MangaViewer.',
         'twitter:card': 'summary',
-        'twitter:site': '@erikras',
-        'twitter:creator': '@erikras',
-        'twitter:title': 'React Redux Example',
-        'twitter:description': 'All the modern best practices in one example.',
+        'twitter:site': '@prev_ious',
+        'twitter:creator': '@prev_ious',
+        'twitter:title': 'Project Yomiko',
+        'twitter:description': 'A Beatiful Web MangaViewer.',
         'twitter:image': 'https://react-redux.herokuapp.com/logo.jpg',
         'twitter:image:width': '200',
-        'twitter:image:height': '200'
+        'twitter:image:height': '200',
       }
     }
   }
