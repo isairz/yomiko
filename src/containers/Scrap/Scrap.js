@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import DocumentMeta from 'react-document-meta';
 import { connect } from 'react-redux';
-import { MangaList, MangaViewer } from 'components';
+import { MangaList, MangaViewer, LoadingPage } from 'components';
 import BodyStyle from 'body-style';
 import * as scrapActions from 'redux/modules/scrap';
 import { isLoaded, load as loadScrap } from 'redux/modules/scrap';
@@ -71,7 +71,8 @@ class Scrap extends Component {
           {' '}
           {error}
         </div>}
-        {Child}
+        {loading && <LoadingPage />}
+        {!loading && Child}
       </div>
     );
   }
