@@ -7,7 +7,6 @@ const request = Request.defaults({
 });
 
 export default function proxy(req, res) {
-  console.log(req.query.src);
   request(encodeURI(req.query.src))
   .on('error', () => {
     res.sendStatus(404);
@@ -16,4 +15,3 @@ export default function proxy(req, res) {
 
   return Promise.resolve();
 }
-

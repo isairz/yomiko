@@ -101,7 +101,6 @@ export default class MangaViewer extends Component {
     for (let index = enableStart; index <= enableEnd; index++) {
       if (refs[index]) refs[index].load(true);
     }
-    console.log(disableStart, disableEnd, enableStart, enableEnd);
   }
 
   prevPage() {
