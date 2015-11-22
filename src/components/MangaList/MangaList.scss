@@ -1,12 +1,20 @@
 .list, .mangalist {
-	ul {
-    list-style: none;
+	.goback {
+		position: absolute;
+		left: 26px;
+		top: 17px;
+	}
+	ul.container {
+		background: black;
+		min-height: 100vh;
     margin: 0;
     padding: 0;
+		padding-top: 50px;
+    list-style: none;
     font-size: 0;
     overflow: hidden;
 		background: #121211;
-  }
+	}
 }
 
 .mangalist {
