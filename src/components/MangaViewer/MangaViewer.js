@@ -13,7 +13,8 @@ export default class MangaViewer extends Component {
     const Swiper = require('swiper');
     this.swiper = new Swiper('.' + styles.container, {
       effect: 'none',
-      onSlideChangeEnd: this.handleSlideChange.bind(this),
+      onSlideChangeStart: this.handleSlideChnageStart.bind(this),
+      onSlideChangeEnd: this.handleSlideChangeEnd.bind(this),
     });
 
     window.addEventListener('keydown', this);
@@ -77,7 +78,15 @@ export default class MangaViewer extends Component {
     }
   }
 
-  handleSlideChange() {
+  handleSlideChnageStart() {
+    // Update Page Information
+    const {activeIndex} = this.swiper;
+    const {title, images} = this.props;
+    refs.info.textContent = `${title} ${activeIndex + 1}/${images.length}`;
+  }
+
+  handleSlideChangeEnd() {
+    // Update Page image
     const {activeIndex} = this.swiper;
     const {lastIndex, refs} = this;
 
@@ -109,9 +118,6 @@ export default class MangaViewer extends Component {
       if (refs[index]) refs[index].load(true);
     }
     this.lastIndex = activeIndex;
-
-    const {title, images} = this.props;
-    refs.info.textContent = `${title} ${activeIndex + 1}/${images.length}`;
   }
 
   prevPage() {
