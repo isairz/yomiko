@@ -21,7 +21,8 @@ export default class MangaViewer extends Component {
     window.addEventListener('wheel', this);
 
     this.lastIndex = -10;
-    this.handleSlideChange();
+    this.handleSlideChnageStart();
+    this.handleSlideChangeEnd();
   }
 
   componentWillUnmount() {
@@ -82,7 +83,7 @@ export default class MangaViewer extends Component {
     // Update Page Information
     const {activeIndex} = this.swiper;
     const {title, images} = this.props;
-    refs.info.textContent = `${title} ${activeIndex + 1}/${images.length}`;
+    this.refs.info.textContent = `${title} ${activeIndex + 1}/${images.length}`;
   }
 
   handleSlideChangeEnd() {
