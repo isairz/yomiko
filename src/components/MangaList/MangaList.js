@@ -20,7 +20,7 @@ const MangaNode = (props) => {
   return (
     <li className={styles.item}>
       <IndexLink to={'/scrap?link=' + encodeURIComponent(link)} rawurl={link}>
-        <BackgroundImage className={styles.thumbnail} src={thumbnail} proxy={proxy} lazy={hidden}/>
+        <BackgroundImage className={styles.thumbnail} src={thumbnail} proxy={proxy} lazy={hidden} options={{height: 300}}/>
         <div className={styles.textwrap}>
           <div className={styles.title}>{title}</div>
         </div>

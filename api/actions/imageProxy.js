@@ -1,4 +1,5 @@
 import Request from 'request';
+import GM from 'gm';
 
 const request = Request.defaults({
   headers: {
@@ -7,11 +8,20 @@ const request = Request.defaults({
 });
 
 export default function proxy(req, res) {
-  request(encodeURI(req.query.src))
+  const {src, width, height} = req.query;
+  console.log(src);
+  let stream = request(encodeURI(src))
   .on('error', () => {
     res.sendStatus(404);
   })
-  .pipe(res);
+
+  if(width || height) {
+    stream = GM(stream)
+      .resize(width, height)
+      .stream();
+  }
+
+  stream.pipe(res);
 
   return Promise.resolve();
 }
