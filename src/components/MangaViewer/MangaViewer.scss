@@ -10,6 +10,13 @@
   top: 0;
   left: 0;
   background: #000;
+  .info {
+    position: fixed;
+    left: 10px;
+    top: 4px;
+    color: #c0c0c0;
+    z-index: 1000;
+  }
 }
 .wrapper {
   position: relative;

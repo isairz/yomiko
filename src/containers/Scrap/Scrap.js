@@ -51,7 +51,7 @@ class Scrap extends Component {
         );
         break;
       case 'manga':
-        Child = <MangaViewer images={scrap.images} />;
+        Child = <MangaViewer {...scrap} />;
         break;
       default:
         break;

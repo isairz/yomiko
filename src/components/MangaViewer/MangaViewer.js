@@ -3,7 +3,9 @@ import {BackgroundImage} from 'components';
 const styles = require('./MangaViewer.scss');
 
 export default class MangaViewer extends Component {
+
   static propTypes = {
+    title: PropTypes.string,
     images: PropTypes.array.isRequired,
   }
 
@@ -16,9 +18,9 @@ export default class MangaViewer extends Component {
 
     window.addEventListener('keydown', this);
     window.addEventListener('wheel', this);
-    for (let index = 0; index <= 2; index++) {
-      if (this.refs[index]) this.refs[index].load(true);
-    }
+
+    this.lastIndex = -10;
+    this.handleSlideChange();
   }
 
   componentWillUnmount() {
@@ -76,23 +78,28 @@ export default class MangaViewer extends Component {
   }
 
   handleSlideChange() {
-    const {previousIndex, activeIndex} = this.swiper;
-    const {refs} = this;
+    const {activeIndex} = this.swiper;
+    const {lastIndex, refs} = this;
+
+    if (lastIndex === activeIndex) {
+      return;
+    }
+
     let disableStart;
     let disableEnd;
     let enableStart;
     let enableEnd;
 
-    if (previousIndex < activeIndex) {
-      disableStart = previousIndex - 2;
-      disableEnd = Math.min(previousIndex + 2, activeIndex - 3);
-      enableStart = Math.max(activeIndex - 2, previousIndex + 3);
+    if (lastIndex < activeIndex) {
+      disableStart = lastIndex - 2;
+      disableEnd = Math.min(lastIndex + 2, activeIndex - 3);
+      enableStart = Math.max(activeIndex - 2, lastIndex + 3);
       enableEnd = activeIndex + 2;
     } else {
-      disableStart = Math.max(previousIndex - 2, activeIndex + 3);
-      disableEnd = previousIndex + 2;
+      disableStart = Math.max(lastIndex - 2, activeIndex + 3);
+      disableEnd = lastIndex + 2;
       enableStart = activeIndex - 2;
-      enableEnd = Math.min(activeIndex + 2, previousIndex - 3);
+      enableEnd = Math.min(activeIndex + 2, lastIndex - 3);
     }
 
     for (let index = disableStart; index <= disableEnd; index++) {
@@ -101,6 +108,10 @@ export default class MangaViewer extends Component {
     for (let index = enableStart; index <= enableEnd; index++) {
       if (refs[index]) refs[index].load(true);
     }
+    this.lastIndex = activeIndex;
+
+    const {title, images} = this.props;
+    refs.info.textContent = `${title} ${activeIndex + 1}/${images.length}`;
   }
 
   prevPage() {
@@ -126,6 +137,7 @@ export default class MangaViewer extends Component {
     const {images} = this.props;
     return (
       <div className={styles.container} dir="rtl">
+        <div className={styles.info} ref="info"/>
         <div className={styles.wrapper + ' swiper-wrapper'}>
           {images.map((image, idx) => (
             <div className={styles.slide + ' swiper-slide'}>
