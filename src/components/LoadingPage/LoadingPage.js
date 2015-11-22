@@ -18,8 +18,6 @@ const Spinner = (props) => {
     );
   }
 
-  console.log(styles);
-
   return (
     <div {...props} className={styles.react_spinner}>
       {bars}
@@ -29,7 +27,9 @@ const Spinner = (props) => {
 
 const LoadingPage = () => {
   return (
-    <Spinner className={styles.react_spinner}/>
+    <div className={styles.wrapper}>
+      <Spinner className={styles.react_spinner}/>
+    </div>
   );
 };
 export default LoadingPage;
