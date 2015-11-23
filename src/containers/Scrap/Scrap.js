@@ -39,7 +39,7 @@ class Scrap extends Component {
     const styles = require('./Scrap.scss');
 
     let Child = null;
-    if (scrap.list && scrap.list.length === 1) {
+    if (scrap && scrap.list && scrap.list.length === 1) {
       this.props.replaceState(null, location.pathname, {link: scrap.list[0].link});
     }
     switch (scrap && scrap.type) {
