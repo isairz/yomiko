@@ -181,6 +181,50 @@ var scrapers = [
     });
   },
   function ($, callback) {
+    var articles = $('.upload-list');
+    if (!articles.length) {
+      callback(undefined);
+      return;
+    }
+    var list = [].map.call(articles, function (article) {
+      var ar = $(article);
+      return {
+        thumbnail: ar.find('.thumbnail').css('background-image').replace(/^url\((.+)\)/, '$1'),
+        title: ar.find('.title').text().trim(),
+        link: ar.find('a').attr('href').replace('./view.php', './postview.php')
+      }
+    }).filter(function (episode) { return episode.title; })
+
+    var prev = $('.pq_now').prev('.page').attr('href');
+    var next = $('.pq_now').next('.page').attr('href');
+    var more = $('.more').attr('href');
+
+    if (prev) {
+      list.push({
+        title: 'Prev Page',
+        link: prev
+      });
+    }
+    if (next) {
+      list.push({
+        title: 'Next Page',
+        link: next
+      });
+    }
+    if (more) {
+      list.push({
+        title: 'More Page',
+        link: more
+      });
+    }
+
+    callback({
+      type: 'manga list',
+      title: $("head title").text().trim(),
+      list: list
+    });
+  },
+  function ($, callback) {
     var content = $('article .post_content p');
     if (!content.length) {
       callback(undefined);
@@ -226,14 +270,46 @@ var scrapers = [
       title: $('#content .entry-title').text().trim(),
       images: images,
     });
-  }
+  },
+  function ($, callback) {
+    let article = $('#view');
+    if (!article.length) {
+      callback(undefined);
+      return;
+    }
+
+    let attr = 'data-lazy-src';
+    let list = $(article).children('img[' + attr + ']');
+    if (!list || !list.length) {
+      attr = 'src';
+      list = $(article).children('img[' + attr + ']');
+    }
+
+
+    let images = list.map(function () {
+      return $(this).attr(attr);
+    }).get();
+
+    callback({
+      type: 'manga',
+      title: $('head title').text().replace(' - Fuwarinn', '').trim(),
+      images: images,
+    });
+  },
 ];
 
 function resolveLinks(baseUri, data) {
-  if (data.type === 'link') {
-    [].map.call(data.data, function (linkInfo) {
+  if (data.type === 'list' || data.type === 'manga list') {
+    [].map.call(data.list, function (linkInfo) {
+      if (linkInfo.thumbnail) {
+        linkInfo.thumbnail = url.resolve(baseUri, linkInfo.thumbnail);
+      }
       linkInfo.link = url.resolve(baseUri, linkInfo.link);
       return linkInfo;
+    });
+  } else if (data.type === 'manga') {
+    data.images = [].map.call(data.images, function (image) {
+      return url.resolve(baseUri, image);
     });
   }
   return data;

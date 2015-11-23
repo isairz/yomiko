@@ -8,12 +8,14 @@ import { load } from 'redux/modules/scrap';
 import { BackgroundImage } from 'components';
 // import {GridList, GridTile} from 'material-ui';
 
+const crossOriginServer = /marumaru\.in\/|fuwarinn\.com/;
+
 const MangaNode = (props) => {
   const {thumbnail, link, title, hidden, style} = props;
   let proxy = false;
   const styles = require('./MangaList.scss');
 
-  if (thumbnail && thumbnail.indexOf('marumaru.in/') >= 0) {
+  if (thumbnail && thumbnail.match(crossOriginServer)) {
     proxy = true;
   }
 
