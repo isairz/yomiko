@@ -9,7 +9,7 @@ import { BackgroundImage } from 'components';
 // import {GridList, GridTile} from 'material-ui';
 
 const MangaNode = (props) => {
-  const {thumbnail, link, title, hidden} = props;
+  const {thumbnail, link, title, hidden, style} = props;
   let proxy = false;
   const styles = require('./MangaList.scss');
 
@@ -18,9 +18,9 @@ const MangaNode = (props) => {
   }
 
   return (
-    <li className={styles.item}>
+    <li className={styles.item} style={style}>
       <IndexLink to={'/scrap?link=' + encodeURIComponent(link)} rawurl={link}>
-        <BackgroundImage className={styles.thumbnail} src={thumbnail} proxy={proxy} lazy={hidden} options={{height: 300}}/>
+        <BackgroundImage className={styles.thumbnail} src={thumbnail} proxy={proxy} lazy={hidden} options={{height: 270}}/>
         <div className={styles.textwrap}>
           <div className={styles.title}>{title}</div>
         </div>
@@ -49,13 +49,18 @@ export default class MangaList extends Component {
     this.state = {
       firstElement: 0,
       lastElement: 11,
+      cols: 1,
+      containerWidth: 0,
+      containerHeight: 0,
+      nodeWidth: 0,
+      nodeHeight: 0,
     };
   }
 
   componentDidMount() {
     window.addEventListener('resize', this);
     window.addEventListener('scroll', this);
-    this.lazyLoad();
+    this.calculateSize();
   }
 
   componentWillUnmount() {
@@ -64,33 +69,52 @@ export default class MangaList extends Component {
   }
 
   handleEvent() {
-    this.lazyLoad();
+    this.calculateSize();
   }
 
-  lazyLoad() {
+  calculateSize() {
     const container = this.refs.container;
-    const node = container.querySelector('li');
     const containerWidth = container.getClientRects()[0].width;
-    const nodeWidth = node.getBoundingClientRect().width;
-    const nodeHeight = node.getBoundingClientRect().height;
+
+    let cols;
+    let nodeWidth;
+    let nodeHeight;
+    if (this.props.className === 'list') {
+      cols = 1;
+      nodeWidth = containerWidth;
+      nodeHeight = 58;
+    } else {
+      cols = Math.floor(containerWidth / 170) + 1; // FIXME: baseWidth
+      nodeWidth = containerWidth / cols;
+      nodeHeight = nodeWidth * 1.58; // FIXME: ratio
+    }
+    const containerHeight = nodeHeight * (Math.floor((this.props.list.length - 1) / cols) + 1);
+    this.setState({
+      cols,
+      containerWidth,
+      containerHeight,
+      nodeWidth,
+      nodeHeight,
+    });
 
     const top = window.scrollY;
     const bottom = top + window.innerHeight;
-    const cols = Math.floor(containerWidth / nodeWidth);
     const firstElement = Math.floor(top / nodeHeight) * cols;
-    const lastElement = Math.floor(bottom / nodeHeight + 1) * cols - 1;
+    const lastElement = Math.floor(bottom / nodeHeight + 1) * cols;
 
     if (firstElement < this.state.firstElement || lastElement > this.state.lastElement) {
       this.setState({
-        firstElement: firstElement - 1 * cols,
+        firstElement: Math.max(firstElement - 1 * cols, 0),
         lastElement: lastElement + 3 * cols,
       });
     }
   }
 
   render() {
-    const {className, list, title} = this.props;
+    const { className, list, title } = this.props;
+    const { firstElement, lastElement, containerWidth, containerHeight, nodeWidth, nodeHeight, cols } = this.state;
     const styles = require('./MangaList.scss');
+
     return (
       <div className={styles[className]}>
         <Navbar fixedTop toggleNavKey={0}>
@@ -111,9 +135,20 @@ export default class MangaList extends Component {
             </Nav>
           </CollapsibleNav>
         </Navbar>
-        <ul className={styles.container} ref="container">
-          {list.map((item, idx) => <MangaNode {...item} key={item.link} hidden={idx < this.state.firstElement || idx > this.state.lastElement}/>)}
-        </ul>
+        <div className={styles.container + ' container'} ref="container">
+          <ul style={{width: containerWidth, height: containerHeight}}>
+            {list.slice(firstElement, lastElement).map((item, idx) => {
+              const ii = firstElement + idx;
+              return (<MangaNode {...item}
+                key={item.link}
+                style={{
+                  width: nodeWidth,
+                  height: nodeHeight,
+                  transform: `translate3d(${nodeWidth * (ii % cols)}px, ${nodeHeight * Math.floor(ii / cols)}px, 0)`,
+                }}/>);
+            })}
+          </ul>
+        </div>
       </div>
     );
   }

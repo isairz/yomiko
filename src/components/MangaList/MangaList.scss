@@ -4,39 +4,32 @@
 		left: 26px;
 		top: 17px;
 	}
-	ul.container {
-		background: black;
-		min-height: 100vh;
-    margin: 0;
-    padding: 0;
-		padding-top: 50px;
-    list-style: none;
-    font-size: 0;
-    overflow: hidden;
-		background: #121211;
+	.container {
+		padding: 50px 0 0;
+		ul {
+			width: 100%;
+			background: black;
+			min-height: 100vh;
+	    margin: 0 auto;
+			padding: 0;
+	    list-style: none;
+	    font-size: 0;
+	    overflow: hidden;
+			background: #121211;
+			position: relative;;
+		}
 	}
 }
 
 .mangalist {
 	.item {
-		position: relative;
+		position: absolute;
+		top: 0;
+		left: 0;
 	  display: inline-block;
 	  vertical-align: top;
 		padding: 2px;
 
-	  width: 10%;
-	  @media screen and (max-width: 1400px) {
-	    width: 14.2857143%;
-	  }
-	  @media screen and (max-width: 1000px) {
-	    width: 20%;
-	  }
-	  @media screen and (max-width: 800px) {
-	    width: 25%;
-	  }
-	  @media screen and (max-width: 600px) {
-	    width: 33.3333333%;
-	  }
 	  .thumbnail {
 	    width: initial;
 	    height: 0;
@@ -65,7 +58,7 @@
 		    text-overflow: ellipsis;
 		    overflow: hidden;
 		    white-space: normal;
-				margin:auto;
+				margin: auto;
 		  }
 		}
 	}
@@ -84,12 +77,12 @@
 
 .list {
 	.item {
-		position: relative;
-		width: 100%;
-		height: 56px;
+		position: absolute;
+		top: 0;
+		left: 0;
 		margin-left: 0;
-		margin-top: 1px;
-		margin-bottom: 1px;
+		padding-top: 1px;
+		padding-bottom: 1px;
 		a {
 			display: block;
 			padding: 20px 56px 20px 72px;
@@ -121,7 +114,7 @@
 				line-height: 16px;
 		    text-overflow: ellipsis;
 		    overflow: hidden;
-		    white-space: normal;
+		    white-space: nowrap;
 		  }
 		}
 	}
