@@ -120,7 +120,7 @@ export default class MangaList extends Component {
     return (
       <div className={styles[className]}>
         <Navbar fixedTop toggleNavKey={0}>
-          <NavBrand>
+          <NavBrand className={styles.brand}>
             <a href="#" onClick={this.props.goBack}>
               <div className={styles.goback}>
                 <i className="fa fa-chevron-left"></i>
