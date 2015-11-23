@@ -4,11 +4,14 @@ Project Yomiko
 A Beatiful Web MangaViewer.
 
 ## How to use?
+Development
 ```
-[sudo] npm install -g gulp
-npm install
-gulp build
-node app.js
+npm run dev
+```
+Production
+```
+npm run build
+npm run start
 ```
 
 ## License
