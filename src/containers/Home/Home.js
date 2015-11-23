@@ -19,12 +19,19 @@ export default class Home extends Component {
         </div>
 
         <div className="container">
-          <h3>어디에 쓰는 것 인가요?</h3>
+          <h3>요미코는?</h3>
 
           <dl>
-            <dt>편리한 UI</dt>
+            <dt>만화 뷰어</dt>
             <dd>
-              인터넷의 만화들을 보기 쉽게 쓰기 위한 것입니다.
+              간단히 말해서 편리한 만화뷰어에요.
+            </dd>
+            <dt>사용법</dt>
+            <dd>
+              위의 요미코 아이콘을 누르고 사용해요.
+            </dd>
+            <dd>
+              모바일 크롬의 경우 [메뉴 - 홈 화면에 추가] 를 해두시면 편리해요.
             </dd>
           </dl>
 
