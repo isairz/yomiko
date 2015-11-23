@@ -18,6 +18,7 @@
   },
   "main": "bin/server.js",
   "scripts": {
+    "forever": "forever start -c \"npm run start-prod-api\" ./ && forever start -c \"npm run start-prod\" ./",
     "start": "concurrent --kill-others \"npm run start-prod\" \"npm run start-prod-api\"",
     "start-prod": "node ./node_modules/better-npm-run start-prod",
     "start-prod-api": "node ./node_modules/better-npm-run start-prod-api",
