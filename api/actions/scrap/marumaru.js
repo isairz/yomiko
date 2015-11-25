@@ -144,6 +144,44 @@ var scrapers = [
     });
   },
   function ($, callback) {
+    // http://marumaru.in/?m=bbs&bid=mangaup&sort=gid&p=
+    var articles = $('#bbslist .list').not('.notice');
+    if (!articles.length) {
+      callback(undefined);
+      return;
+    }
+    var list = [].map.call(articles, function (article) {
+      var ar = $(article);
+      return {
+        thumbnail: ar.find('.image-thumb').css('background-image').replace(/^url\((.+)\)/, '$1'),
+        title: ar.find('.subject').text().trim(),
+        link: ar.attr('onclick').replace(/goHref\(\'(.+)\'\);/, '$1'),
+      }
+    }).filter(function (episode) { return episode.title; })
+
+    var prev = $('.page .selected').prev().prev('.notselected').attr('href');
+    var next = $('.page .selected').next().next('.notselected').attr('href');
+
+    if (prev) {
+      list.push({
+        title: 'Prev Page',
+        link: prev
+      });
+    }
+    if (next) {
+      list.push({
+        title: 'Next Page',
+        link: next
+      });
+    }
+
+    callback({
+      type: 'list',
+      title: $("head title").text().trim(),
+      list: list
+    });
+  },
+  function ($, callback) {
     var articles = $('#post_list2 article');
     if (!articles.length) {
       callback(undefined);
