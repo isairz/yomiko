@@ -17,7 +17,7 @@ export default function proxy(req, res) {
 
   if(width || height) {
     stream = GM(stream)
-      .resize(width, height)
+      .resize(width, height, '>')
       .stream();
   }
 
