@@ -12,9 +12,14 @@
     margin: 0 10px 0 0;
     border-radius: $size / 2;
   }
+
   nav :global(.fa) {
     font-size: 2em;
     line-height: 20px;
+  }
+
+  .brandLink {
+    color: #33e0ff;
   }
 }
 .appContent {

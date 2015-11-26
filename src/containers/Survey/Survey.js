@@ -31,7 +31,7 @@ export default class Survey extends Component {
     return (
       <div className="container">
         <h1>Survey</h1>
-        <DocumentMeta title="React Redux Example: Survey"/>
+        <DocumentMeta title="Project Yomiko!: Survey"/>
 
         <p>
           This is an example of a form in redux in which all the state is kept within the redux store.

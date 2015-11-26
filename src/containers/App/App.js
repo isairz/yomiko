@@ -60,9 +60,9 @@ export default class App extends Component {
         <DocumentMeta {...config.app}/>
         <Navbar fixedTop toggleNavKey={0}>
           <NavBrand>
-            <IndexLink to="/" activeStyle={{color: '#33e0ff'}}>
+            <IndexLink to="/">
               <div className={styles.brand}/>
-              <span>Project Yomiko!</span>
+              <span className={styles.brandLink}>Project Yomiko!</span>
             </IndexLink>
           </NavBrand>
 
