@@ -1,11 +1,8 @@
 .brand {
-  position: absolute;
-  left: 0;
-  right: 50px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: #777;
+  max-width: calc(100vw - 60px);
 }
 
 .list, .mangalist {
