@@ -112,6 +112,11 @@ export default class MangaList extends Component {
     }
   }
 
+  goBack(e) {
+    this.props.goBack();
+    e.preventDefault();
+  }
+
   render() {
     const { className, list, title } = this.props;
     const { firstElement, lastElement, containerWidth, containerHeight, nodeWidth, nodeHeight, cols } = this.state;
@@ -121,7 +126,7 @@ export default class MangaList extends Component {
       <div className={styles[className]}>
         <Navbar fixedTop toggleNavKey={0}>
           <NavBrand className={styles.brand}>
-            <a href="#" onClick={this.props.goBack}>
+            <a href="#" onClick={this.goBack.bind(this)}>
               <div className={styles.goback}>
                 <i className="fa fa-chevron-left"></i>
               </div>
