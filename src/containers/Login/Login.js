@@ -25,7 +25,7 @@ export default class Login extends Component {
     const styles = require('./Login.scss');
     return (
       <div className={styles.loginPage + ' container'}>
-        <DocumentMeta title="React Redux Example: Login"/>
+        <DocumentMeta title="Project Yomiko!: Login"/>
         <h1>Login</h1>
         {!user &&
         <div>

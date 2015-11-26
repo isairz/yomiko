@@ -17,7 +17,7 @@ export default class About extends Component {
     return (
       <div className="container">
         <h1>About Us</h1>
-        <DocumentMeta title="React Redux Example: About Us"/>
+        <DocumentMeta title="Project Yomiko!: About Us"/>
 
         <p>This project was orginally created by Erik Rasmussen
           (<a href="https://twitter.com/erikras" target="_blank">@erikras</a>), but has since seen many contributions

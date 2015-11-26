@@ -56,7 +56,7 @@ class Widgets extends Component {
             className={refreshClassName}/> {' '} Reload Widgets
           </button>
         </h1>
-        <DocumentMeta title="React Redux Example: Widgets"/>
+        <DocumentMeta title="Project Yomiko!: Widgets"/>
         <p>
           If you hit refresh on your browser, the data loading will take place on the server before the page is returned.
           If you navigated here from another page, the data was fetched from the client after the route transition.
