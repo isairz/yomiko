@@ -112,9 +112,9 @@ export default class MangaList extends Component {
     }
   }
 
-  goBack(e) {
+  goBack(event) {
     this.props.goBack();
-    e.preventDefault();
+    event.preventDefault();
   }
 
   render() {
