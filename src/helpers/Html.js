@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import ReactDOM from 'react-dom/server';
 import serialize from 'serialize-javascript';
 import DocumentMeta from 'react-document-meta';
+import config from 'config';
 
 /**
  * Wrapper component containing HTML metadata and boilerplate tags.
@@ -30,7 +31,16 @@ export default class Html extends Component {
 
           <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui"/>
           <link rel="shortcut icon" href="/favicon.png"/>
-          <link rel="manifest" href="manifest.json"/>
+
+          {/* Android Web Application */}
+          <meta name='mobile-web-app-capable' content='yes'/>
+          <link rel="manifest" href="/manifest.json"/>
+
+          {/* iOS Web Application */}
+          <meta name='apple-mobile-web-app-capable' content='yes'/>
+          <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+          <meta name="apple-mobile-web-app-title" content={config.app.title}/>
+          <link rel="apple-touch-icon" href="/favicon.png"/>
 
           {/* styles (will be present only in production with webpack extract text plugin) */}
           {Object.keys(assets.styles).map((style, key) =>
