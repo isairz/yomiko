@@ -11,14 +11,21 @@ export default class MangaViewer extends Component {
 
   componentDidMount() {
     const Swiper = require('swiper');
+
+    // FIXME: User option for wheel control style.
+    const isMacLike = navigator.platform.match(/(Mac|iPhone|iPod|iPad)/i) ? true : false;
     this.swiper = new Swiper('.' + styles.container, {
       effect: 'none',
+      mousewheelControl: isMacLike,
+      iOSEdgeSwipeDetection: isMacLike,
       onSlideChangeStart: this.handleSlideChnageStart.bind(this),
       onSlideChangeEnd: this.handleSlideChangeEnd.bind(this),
     });
 
     window.addEventListener('keydown', this);
-    window.addEventListener('wheel', this);
+    if (!isMacLike) {
+      window.addEventListener('wheel', this);
+    }
 
     this.lastIndex = -10;
     this.handleSlideChnageStart();
@@ -26,7 +33,10 @@ export default class MangaViewer extends Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('wheel', this);
+    const isMacLike = navigator.platform.match(/(Mac|iPhone|iPod|iPad)/i) ? true : false;
+    if (!isMacLike) {
+      window.removeEventListener('wheel', this);
+    }
     window.removeEventListener('keydown', this);
   }
 
