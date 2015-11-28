@@ -4,11 +4,8 @@
   width: 100vw;
   height: 100vh;
   margin: 0 auto;
-  position: fixed;
+  position: relative;
   overflow: hidden;
-  /* Fix of Webkit flickering */
-  top: 0;
-  left: 0;
   background: #000;
   .info {
     position: fixed;
