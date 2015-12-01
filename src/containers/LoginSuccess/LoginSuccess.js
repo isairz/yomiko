@@ -9,7 +9,7 @@ export default
 class LoginSuccess extends Component {
   static propTypes = {
     user: PropTypes.object,
-    logout: PropTypes.func
+    logout: PropTypes.func,
   }
 
   render() {

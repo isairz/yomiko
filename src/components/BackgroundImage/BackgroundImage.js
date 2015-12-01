@@ -4,18 +4,18 @@ import URL from 'url';
 export default class BackgroundImage extends Component {
 
   static propTypes = {
+    className: PropTypes.string,
+    src: PropTypes.string,
     lazy: PropTypes.bool,
     proxy: PropTypes.bool,
-    src: PropTypes.string,
-    className: PropTypes.string,
     options: PropTypes.object,
   }
 
   static defaultProps = {
+    className: '',
+    src: '',
     lazy: false,
     proxy: false,
-    src: '',
-    className: '',
     options: {},
   }
 

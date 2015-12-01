@@ -38,7 +38,11 @@ class Chat extends Component {
     this.setState({messages});
   }
 
-  handleSubmit(event) {
+  handleChange = (event) => {
+    this.setState({message: event.target.value});
+  }
+
+  handleSubmit = (event) => {
     event.preventDefault();
 
     const msg = this.state.message;
@@ -66,14 +70,12 @@ class Chat extends Component {
             return <li key={`chat.msg.${msg.id}`}>{msg.from}: {msg.text}</li>;
           })}
           </ul>
-          <form className="login-form" onSubmit={this.handleSubmit.bind(this)}>
+          <form className="login-form" onSubmit={this.handleSubmit}>
             <input type="text" ref="message" placeholder="Enter your message"
-             value={this.state.message}
-             onChange={(event) => {
-               this.setState({message: event.target.value});
-             }
-            }/>
-            <button className="btn" onClick={this.handleSubmit.bind(this)}>Send</button>
+              value={this.state.message}
+              onChange={this.handleChange}
+            />
+            <button className="btn" onClick={this.handleSubmit}>Send</button>
           </form>
         </div>
         }

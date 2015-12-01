@@ -25,11 +25,10 @@ const Spinner = (props) => {
   );
 };
 
-const LoadingPage = () => {
+export default function LoadingPage() {
   return (
     <div className={styles.wrapper}>
       <Spinner className={styles.react_spinner}/>
     </div>
   );
-};
-export default LoadingPage;
+}

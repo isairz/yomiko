@@ -11,7 +11,7 @@ import { BackgroundImage } from 'components';
 const crossOriginServer = /marumaru\.in\/|fuwarinn\.com/;
 
 const MangaNode = (props) => {
-  const {thumbnail, link, title, hidden, style} = props;
+  const {thumbnail, link, title, hidden, style} = props; // eslint-disable-line react/prop-types
   let proxy = false;
   const styles = require('./MangaList.scss');
 
@@ -37,9 +37,9 @@ const MangaNode = (props) => {
 export default class MangaList extends Component {
   static propTypes = {
     className: PropTypes.string,
+    goBack: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     list: PropTypes.array.isRequired,
-    goBack: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -112,7 +112,7 @@ export default class MangaList extends Component {
     }
   }
 
-  goBack(event) {
+  handleGoBack = (event) => {
     this.props.goBack();
     event.preventDefault();
   }
@@ -126,7 +126,7 @@ export default class MangaList extends Component {
       <div className={styles[className]}>
         <Navbar fixedTop toggleNavKey={0}>
           <NavBrand className={styles.brand}>
-            <a href="#" onClick={this.goBack.bind(this)}>
+            <a href="#" onClick={this.handleGoBack}>
               <div className={styles.goback}>
                 <i className="fa fa-chevron-left"></i>
               </div>
@@ -137,23 +137,23 @@ export default class MangaList extends Component {
           <CollapsibleNav eventKey={0}>
             <Nav navbar>
               <LinkContainer to="/scrap">
-                <NavItem eventKey={2}>Scrap</NavItem>
+                <NavItem eventKey={2}>{'Scrap'}</NavItem>
               </LinkContainer>
             </Nav>
           </CollapsibleNav>
         </Navbar>
         <div className={styles.container + ' container'} ref="container">
           <ul style={{width: containerWidth, height: containerHeight}}>
-            {list.slice(firstElement, lastElement).map((item, idx) => {
-              const ii = firstElement + idx;
-              return (<MangaNode {...item}
+            {list.slice(firstElement, lastElement).map((item, idx) => (
+              <MangaNode {...item}
                 key={item.link}
                 style={{
                   width: nodeWidth,
                   height: nodeHeight,
-                  transform: `translate3d(${nodeWidth * (ii % cols)}px, ${nodeHeight * Math.floor(ii / cols)}px, 0)`,
-                }}/>);
-            })}
+                  transform: `translate3d(${nodeWidth * ((firstElement + idx) % cols)}px, ${nodeHeight * Math.floor((firstElement + idx) / cols)}px, 0)`,
+                }}
+              />
+            ))}
           </ul>
         </div>
       </div>

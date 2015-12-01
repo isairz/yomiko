@@ -157,7 +157,7 @@ export default class MangaViewer extends Component {
         <div className={styles.info} ref="info"/>
         <div className={styles.wrapper + ' swiper-wrapper'}>
           {images.map((image, idx) => (
-            <div className={styles.slide + ' swiper-slide'}>
+            <div className={styles.slide + ' swiper-slide'} key={idx}>
               <BackgroundImage className={styles.page} ref={idx} src={image} proxy lazy/>
             </div>
           ))}
