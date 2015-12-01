@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import DocumentMeta from 'react-document-meta';
 import * as authActions from 'redux/modules/auth';
+import config from '../../config';
 
 @connect(
   state => ({user: state.auth.user}),
@@ -13,7 +14,7 @@ export default class Login extends Component {
     logout: PropTypes.func
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     event.preventDefault();
     const input = this.refs.username;
     this.props.login(input.value);
@@ -25,13 +26,15 @@ export default class Login extends Component {
     const styles = require('./Login.scss');
     return (
       <div className={styles.loginPage + ' container'}>
-        <DocumentMeta title="Project Yomiko!: Login"/>
+        <DocumentMeta title={config.app.title + ': Login'}/>
         <h1>Login</h1>
         {!user &&
         <div>
-          <form className="login-form" onSubmit={::this.handleSubmit}>
-            <input type="text" ref="username" placeholder="Enter a username"/>
-            <button className="btn btn-success" onClick={::this.handleSubmit}><i className="fa fa-sign-in"/>{' '}Log In
+          <form className="login-form form-inline" onSubmit={this.handleSubmit}>
+            <div className="form-group">
+              <input type="text" ref="username" placeholder="Enter a username" className="form-control"/>
+            </div>
+            <button className="btn btn-success" onClick={this.handleSubmit}><i className="fa fa-sign-in"/>{' '}Log In
             </button>
           </form>
           <p>This will "log you in" as this user, storing the username in the session of the API server.</p>
