@@ -112,6 +112,29 @@ var scrapers = [
     })
   },
   function ($, callback) {
+    var list = $('#gall_ul');
+    if (!list.length) {
+      callback(undefined);
+      return;
+    }
+
+    list.children().first().remove(); // Remove Notice
+
+    callback({
+      type: 'manga list',
+      // FIXME: cheerio bug https://github.com/w3c/specberus/pull/278
+      // title: '미니툰 - ' + $('#container_title').text().trim(),
+      title: '미니툰 - ' + $('h2').eq(2).text().trim(),
+      list: [].map.call(list.find('.gall_li'), function (li) {
+        return {
+          thumbnail: $(li).find('img').attr('src'),
+          title: $(li).text().trim(),
+          link: $(li).find('a').attr('href'),
+        };
+      })
+    })
+  },
+  function ($, callback) {
     var content = $('#vContent');
     if (!content.length) {
       callback(undefined);
@@ -134,6 +157,29 @@ var scrapers = [
     callback({
       type: 'list',
       title: '[' + $("head meta[name=classification]").attr('content') + '] ' + $("head meta[name=subject]").attr('content'),
+      list: [].map.call(content.find('a'), function (link) {
+        return {
+          thumbnail: thumbnail,
+          title: $(link).text().trim(),
+          link: $(link).attr('href')
+        }
+      }).filter(function (episode) { return episode.title; }).reverse()
+    });
+  },
+  function ($, callback) {
+    var content = $('#bo_v_atc');
+    if (!content.length) {
+      callback(undefined);
+      return;
+    }
+
+    // FIXME: thumbnail.
+    var image = content.find('img')[0];
+    var thumbnail = image ? image.attribs['src'] : '';
+
+    callback({
+      type: 'list',
+      title: $('article > header').first().text().trim(),
       list: [].map.call(content.find('a'), function (link) {
         return {
           thumbnail: thumbnail,
@@ -373,7 +419,9 @@ marumaru.scrap = function (link, callback) {
     var $ = cheerio.load(body);
     function next(idx) {
       scrapers[idx]($, function (result) {
-        if (result === undefined) {
+        if (result === undefined
+          || (result.list && !result.list.length)
+          || (result.images && !result.images.length)) {
           if (idx+1 < scrapers.length) {
             next(idx+1);
           } else {
