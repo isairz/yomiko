@@ -151,6 +151,7 @@ export default class MangaList extends Component {
                   width: nodeWidth,
                   height: nodeHeight,
                   transform: `translate3d(${nodeWidth * ((firstElement + idx) % cols)}px, ${nodeHeight * Math.floor((firstElement + idx) / cols)}px, 0)`,
+                  WebkitTransform: `translate3d(${nodeWidth * ((firstElement + idx) % cols)}px, ${nodeHeight * Math.floor((firstElement + idx) / cols)}px, 0)`,
                 }}
               />
             ))}
