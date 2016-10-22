@@ -13,6 +13,7 @@ const router = new Router({
   routes: [
     { path: '/', redirect: '/manga' }, // FIXME: Add Main Page
     { path: '/manga', component: MangaList },
+    { path: '/manga/:param/:value', component: MangaList },
     { path: '/sample', component: Sample },
     { path: '*', redirect: '/' },
   ],

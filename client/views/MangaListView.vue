@@ -44,14 +44,15 @@ export default {
     },
   },
   watch: {
-    page (to, from) {
-      this.loadItems(to, from)
-    },
+    '$route': 'fetchData',
   },
   beforeMount () {
     this.loadItems(this.page)
   },
   methods: {
+    fetchData () {
+      this.loadItems(this.page)
+    },
     loadItems (to = this.page, from = -1) {
       this.loading = true
       this.$store.dispatch('FETCH_MANGA_LIST', {

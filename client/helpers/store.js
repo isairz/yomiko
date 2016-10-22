@@ -5,7 +5,10 @@ Vue.use(Vuex)
 
 import callApi from './callApi'
 
-function makeParams(param, value) {
+function makeParams (params) {
+  if (!params) return
+
+  const { param, value } = params
   switch (param) {
     case 'id':
     case 'name':
@@ -16,9 +19,9 @@ function makeParams(param, value) {
     case 'group':
     case 'character':
     case 'tag':
-      return  { [param + 's']: `@>.{${value}}` }
+      return { [param + 's']: `@>.{${value}}` }
     case 'series':
-      return  { [param + 'es']: `@>.{${value}}` }
+      return { [param + 'es']: `@>.{${value}}` }
   }
 }
 
@@ -33,13 +36,18 @@ const store = new Vuex.Store({
   actions: {
     // ensure data for rendering given list type
     FETCH_MANGA_LIST: ({ commit, state }, { param, value, page }) =>
-      callApi('mangas', makeParams(param, value))
-      .page(page, state.manga.itemsPerPage)
-      .then(json => commit('SET_MANGA_LIST', json)),
+      callApi({
+        url: 'mangas',
+        params: makeParams(state.route.params),
+        page,
+        itemsPerPage: state.manga.itemsPerPage,
+      }).then(json => commit('SET_MANGA_LIST', json)),
 
     FETCH_MANGA: ({ commit }, id) =>
-      callApi(`mangas?id=eq.${id}`)
-      .then(json => commit('SET_MANGA', json)),
+      callApi({
+        url: `mangas?id=eq.${id}`,
+        single: true,
+      }).then(json => commit('SET_MANGA', json)),
   },
   mutations: {
     SET_MANGA_LIST: (state, list) => {
