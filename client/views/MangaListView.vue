@@ -2,6 +2,13 @@
   <section class="section">
     <div class="container">
       <manga-list :items="items"></manga-list>
+      <nav class="pagination">
+        <ul>
+          <li v-if="page > 1"><router-link class="button" :to="{ query: { page: 1 } }" exact>«</router-link></li>
+          <li v-for="p in pagination"><router-link class="button" :to="{ query: { page: p } }" exact>{{ p }}</router-link></li>
+          <li v-if="hasMore"><router-link class="button" :to="{ query: { page: maxPage } }" exact>»</router-link></li>
+        </ul>
+      </div>
     </div>
   </section>
 </template>
@@ -13,6 +20,26 @@ export default {
   components: {
     MangaList,
   },
+
+  computed: {
+    page () {
+      return 5
+      return Number(this.$store.state.route.query.page) || 1
+    },
+    maxPage () {
+      return 20
+      const { itemsPerPage, list } = this.$store.state.manga
+      return Math.ceil(list.length / itemsPerPage)
+    },
+    pagination () {
+      const from = Math.max(this.page - 5, 1)
+      const to = Math.min(this.page + 5, this.maxPage)
+      return Array.from(Array(to - from + 1), (_, i) => (from + i))
+    },
+    hasMore () {
+      return this.page < this.maxPage
+    },
+  },
   data () {
     return {
       /* eslint-disalbe */
@@ -22,3 +49,8 @@ export default {
   },
 }
 </script>
+
+<style lang="sass" scoped>
+  .pagination
+    margin-top: 20px
+</style>
