@@ -7,9 +7,11 @@ import Sample from '../views/Sample.vue'
 
 const router = new Router({
   mode: 'history',
+  linkActiveClass: 'is-active',
   scrollBehavior: () => ({ y: 0 }),
   routes: [
     { path: '/', component: Sample },
+    { path: '/sample', component: Sample },
     { path: '*', redirect: '/' },
   ],
 })
