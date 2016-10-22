@@ -1,4 +1,5 @@
 <template>
+  <div class="manga-item">
     <div class="card">
       <div class="card-image">
         <router-link :to="'/manga/' + item.id">
@@ -21,7 +22,7 @@
         </div>
       </div>
     </div>
-  </router-link>
+  </div>
 </template>
 
 
@@ -45,3 +46,30 @@ export default {
   },
 }
 </script>
+
+<style lang="sass">
+.manga-item
+  .content a:not(.button)
+      border-bottom: 0
+
+  .title
+    font-weight: 500
+    a
+      text-decoration: none
+      color: #333
+      &:hover
+        text-decoration: underline
+        color: #16BAB4
+
+  .author a
+    color: #333366
+
+  .group a
+    color: #333366
+
+  .type a
+    color: #663366
+
+  .character a
+    color: #aaa
+</style>
