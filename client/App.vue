@@ -1,17 +1,18 @@
 <template>
   <div id="app">
+    <transition name="fade" mode="out-in">
       <router-view class="view"></router-view>
-    <div>asfad</div>
+    </transition>
   </div>
 </template>
 
+<style lang="sass">
+@import './variables.sass'
+</style>
+
 <style lang="stylus">
-.view
-  max-width 800px
-  margin 0 auto
-  position relative
 .fade-enter-active, .fade-leave-active
-  transition all .2s ease
+  transition: all .2s ease
 .fade-enter, .fade-leave-active
-  opacity 0
+  opacity: 0
 </style>
