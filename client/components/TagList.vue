@@ -1,7 +1,6 @@
 <template>
   <div v-if="values" :class="param">
     <router-link
-      class="pink"
       v-for="value in values"
       :to="`/manga/${param}/${value}`"
     >

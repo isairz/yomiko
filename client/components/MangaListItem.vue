@@ -19,6 +19,15 @@
           <tag-list :param="'author'" :values="item.authors" />
           <tag-list :param="'group'" :values="item.groups" />
           <tag-list :param="'character'" :values="item.characters" />
+          <div v-if="item.tags" class="tags">
+            <router-link
+              class="pink"
+              v-for="value in item.tags"
+              :to="`/manga/tag/${value}`"
+            >
+              {{ value | tags }}
+            </router-link>
+          </div>
         </div>
       </div>
     </div>
