@@ -27,6 +27,7 @@
     "syncdb": "node server/syncdb"
   },
   "dependencies": {
+    "axios": "^0.15.2",
     "bulma": "^0.2.3",
     "express": "^4.14.0",
     "font-awesome": "^4.6.3",
