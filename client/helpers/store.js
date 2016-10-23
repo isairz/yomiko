@@ -40,6 +40,7 @@ const store = new Vuex.Store({
         url: 'mangas',
         params: {
           language: 'eq.korean',
+          order: 'id.desc',
           ...makeParams(state.route.params),
         },
         page,
