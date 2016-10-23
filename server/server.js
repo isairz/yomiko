@@ -82,7 +82,8 @@ app.get('*', (req, res) => {
   })
 
   renderStream.on('error', err => {
-    throw err
+    res.status(500).end(err.toString())
+    console.error(err)
   })
 })
 
