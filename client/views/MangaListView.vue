@@ -58,9 +58,6 @@ export default {
       this.$store.dispatch('FETCH_MANGA_LIST', {
         page: this.page,
       }).then(() => {
-        if (this.page < 0 || this.page > this.maxPage) {
-          return
-        }
         this.transition = from === -1 ? '' : to > from ? 'slide-left' : 'slide-right'
         this.items = this.$store.getters.mangaList
         // this.loading = false

@@ -35,7 +35,7 @@ const store = new Vuex.Store({
   },
   actions: {
     // ensure data for rendering given list type
-    FETCH_MANGA_LIST: ({ commit, state }, { param, value, page }) =>
+    FETCH_MANGA_LIST: ({ commit, state }, { page }) =>
       callApi({
         url: 'mangas',
         params: makeParams(state.route.params),
@@ -43,11 +43,20 @@ const store = new Vuex.Store({
         itemsPerPage: state.manga.itemsPerPage,
       }).then(json => commit('SET_MANGA_LIST', json)),
 
-    FETCH_MANGA: ({ commit }, id) =>
+    FETCH_MANGA: ({ commit, state }, id) =>
       callApi({
-        url: `mangas?id=eq.${id}`,
+        url: `mangas`,
+        params: { id: `eq.${id}` },
         single: true,
       }).then(json => commit('SET_MANGA', json)),
+
+    FETCH_MANGA_PAGE: async ({ commit, state, dispatch }, id) => {
+      if (!state.manga.info[id]) {
+        await dispatch('FETCH_MANGA', id)
+      }
+      return await callApi(`pages?mangaId=eq.${id}`)
+        .then(json => commit('SET_MANGA_PAGE', { id, pages: json }))
+    },
   },
   mutations: {
     SET_MANGA_LIST: (state, list) => {
@@ -55,6 +64,10 @@ const store = new Vuex.Store({
       list.forEach(manga => {
         if (!state.manga.info[manga.id]) state.manga.info[manga.id] = manga
       })
+    },
+
+    SET_MANGA: (state, manga) => {
+      if (manga && !state.manga.info[manga.id]) state.manga.info[manga.id] = manga
     },
 
     SET_MANGA_PAGE: (state, { id, pages }) => {

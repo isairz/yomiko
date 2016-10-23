@@ -5,6 +5,7 @@ Vue.use(Router)
 
 import Sample from '../views/Sample.vue'
 import MangaList from '../views/MangaListView.vue'
+import MangaViewer from '../views/MangaViewer.vue'
 
 const router = new Router({
   mode: 'history',
@@ -14,6 +15,7 @@ const router = new Router({
     { path: '/', redirect: '/manga' }, // FIXME: Add Main Page
     { path: '/manga', component: MangaList },
     { path: '/manga/:param/:value', component: MangaList },
+    { path: '/manga/:id(\\d+)', component: MangaViewer },
     { path: '/sample', component: Sample },
     { path: '*', redirect: '/' },
   ],

@@ -12,6 +12,15 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
+if (typeof window !== 'undefined') {
+  const VueTouch = require('vue-touch')
+  VueTouch.registerCustomEvent('doubletap', {
+    type: 'tap',
+    taps: 2,
+  })
+  Vue.use(VueTouch)
+}
+
 const app = new Vue({
   router,
   store,

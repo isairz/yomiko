@@ -37,6 +37,7 @@
     "vue": "^2.0.3",
     "vue-router": "^2.0.1",
     "vue-server-renderer": "^2.0.3",
+    "vue-touch": "github:vuejs/vue-touch#next",
     "vuex": "^2.0.0",
     "vuex-router-sync": "^3.0.0"
   },
