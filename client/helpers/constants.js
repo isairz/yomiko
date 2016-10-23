@@ -16,3 +16,9 @@ export const characters = {
   'hanayo': '하나요',
   'nico': '니코',
 }
+
+export default {
+  ...bookTypes,
+  ...characters,
+}
+
