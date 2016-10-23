@@ -148,7 +148,6 @@ export default {
     window.addEventListener('keydown', (e) => { this.handleKeyDown(e) })
     // window.addEventListener('wheel', (e) => { this.handleWheel(e) })
   },
-  // https://github.com/vuejs/vue/blob/next/packages/vue-server-renderer/README.md#component-caching
   serverCacheKey: props => {
     return `${props.item.id}::${props.item.__lastUpdated}`
   },

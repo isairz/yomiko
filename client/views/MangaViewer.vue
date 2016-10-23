@@ -26,7 +26,7 @@ export default {
       item: null,
     }
   },
-  // preFetch: fetchItem,
+  preFetch: fetchItem,
   beforeMount () {
     fetchItem(this.$store)
     .then(() => {
