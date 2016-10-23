@@ -54,10 +54,6 @@ const store = new Vuex.Store({
       if (!state.manga.info[id]) {
         await dispatch('FETCH_MANGA', id)
       }
-      if (!state.manga.info[id].pages) {
-        const json = await callApi(`pages?mangaId=eq.${id}`)
-        return commit('SET_MANGA_PAGE', { id, pages: json })
-      }
     },
   },
   mutations: {

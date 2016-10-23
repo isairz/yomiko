@@ -4,7 +4,7 @@
       <div class="card-image">
         <router-link :to="'/manga/' + item.id">
           <figure class="image is-1by1 bookrate">
-            <img :src="`//tn.hitomi.la/smalltn/${item.id}/${item.thumbnail}.jpg`">
+            <img :src="`/files/manga/${item.id}/0s.jpg`">
           </figure>
         </router-link>
       </div>

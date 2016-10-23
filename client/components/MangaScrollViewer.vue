@@ -4,8 +4,8 @@
     <progress class="progress is-primary" v-show="loaded < item.pages.length" :value="loaded" :max="item.pages.length">{{ `${this.loaded} / ${item.pages.length}` }}</progress>
     <div class='viewer-wrap'>
       <article>
-        <div class="manga-page" v-for="page in item.pages">
-          <img :src="page.src" />
+        <div class="manga-page" v-for="page in pages">
+          <img :src="page" />
         </div>
       </article>
     </div>
@@ -14,13 +14,6 @@
 
 <script>
 import MangaListItem from '../components/MangaListItem.vue'
-
-function geturl (id, name) {
-  // const numberOfFrontends = 7
-  // const sub = String.fromCharCode(97 + (id % numberOfFrontends))
-  const sub = 'la'
-  return `https://${sub}.hitomi.la/galleries/${id}/${name}`
-}
 
 export default {
   name: 'manga-scroll-viewer',
@@ -31,18 +24,19 @@ export default {
   data () {
     return {
       loaded: 0,
+      pages: [],
     }
   },
   mounted () {
-    this.item.pages.forEach(page => {
+    for (let i = 0; i < this.item.pages[0]; i++) {
       const img = new Image()
-      img.src = geturl(this.item.id, page.name)
-      page.src = 'http://www.arabianbusiness.com/skins/ab.main/gfx/loading_spinner.gif'
+      img.src = `/files/manga/${this.item.id}/${i}p.jpg`
+      this.pages[i] = 'http://www.arabianbusiness.com/skins/ab.main/gfx/loading_spinner.gif'
       img.onload = () => {
-        page.src = img.src
+        this.pages[i] = img.src
         ++this.loaded
       }
-    })
+    }
   },
   watch: {
     page (to, from) {
