@@ -38,7 +38,10 @@ const store = new Vuex.Store({
     FETCH_MANGA_LIST: ({ commit, state }, { page }) =>
       callApi({
         url: 'mangas',
-        params: makeParams(state.route.params),
+        params:{
+          order: 'id.desc',
+          ...makeParams(state.route.params),
+        },
         page,
         itemsPerPage: state.manga.itemsPerPage,
       }).then(json => commit('SET_MANGA_LIST', json)),
