@@ -5,7 +5,7 @@
 
     <div class="nav-center">
       <router-link to="/" exact class="nav-item is-brand title is-3" href="/">
-        Project Yomiko
+        μ’s Garden
       </router-link>
     </div>
 
@@ -13,3 +13,8 @@
     </div>
   </nav>
 </template>
+
+<style lang="sass">
+  .is-brand
+    color: #e10082 !important
+</style>
