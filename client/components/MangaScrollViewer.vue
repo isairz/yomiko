@@ -1,6 +1,6 @@
 <template>
   <div class="manga-scroll-viewer is-shadow">
-    <div class="title-row"><router-link to='/manga'>Manga</router-link> {{ '>' }} {{ item.name }}</div>
+    <div class="title-row"><router-link to='/manga'>Manga</router-link> {{ '>' }} {{ item.title }}</div>
     <progress class="progress is-primary" v-show="loaded < item.pages.length" :value="loaded" :max="item.pages.length">{{ `${this.loaded} / ${item.pages.length}` }}</progress>
     <div class='viewer-wrap'>
       <article>
