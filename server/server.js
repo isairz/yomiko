@@ -47,6 +47,7 @@ function createRenderer (bundle) {
 }
 
 app.use('/dist', express.static(resolve('../dist')))
+app.use('/files', express.static(resolve('../files')))
 // app.use(favicon(resolve('../src/assets/logo.png')))
 
 app.get('*', (req, res) => {
