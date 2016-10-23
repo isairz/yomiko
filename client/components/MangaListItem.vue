@@ -12,7 +12,7 @@
         <div class="content">
           <h3 class="title">
             <router-link :to="'/manga/' + item.id">
-              {{ item.name }}
+              {{ item.title }}
             </router-link>
           </h3>
           <div v-if="item.type" class="type">{{ bookTypes[item.type] }}</div>

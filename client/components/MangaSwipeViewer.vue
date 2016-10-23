@@ -1,7 +1,7 @@
 <template>
   <div class="manga-swipe-viewer">
     <article>
-      <div class="info">{{ `${this.page} / ${item.pages.length} ${item.name}` }}</div>
+      <div class="info">{{ `${this.page} / ${item.pages.length} ${item.title}` }}</div>
       <div class="wrap"
         v-touch:pan="onPan"
         v-touch-options:pan="{ direction: 'horizontal', threshold: 10 }"
