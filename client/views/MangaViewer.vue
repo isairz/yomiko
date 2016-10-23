@@ -1,17 +1,14 @@
 <template>
-  <div>
-    <template v-if="item">
-      <div class="title-row"><router-link to='/manga'>Manga</router-link> {{ '>' }} {{ item.title }}</div>
-      <manga-list-item :key="item.id" :item="item" />
-      <div class='viewer-wrap'>
-        <manga-swipe-viewer :item="item" />
-      </div>
-    </template>
-  </div>
+  <section class="viewer-section" v-if="item">
+    <div class="container" >
+      <manga-swipe-viewer :item="item" v-if="mode === 'swipe'"/>
+      <manga-scroll-viewer :item="item" v-else/>
+    </div>
+  </section>
 </template>
 
 <script>
-import MangaListItem from '../components/MangaListItem.vue'
+import MangaScrollViewer from '../components/MangaScrollViewer.vue'
 import MangaSwipeViewer from '../components/MangaSwipeViewer.vue'
 
 function fetchItem (store) {
@@ -20,13 +17,14 @@ function fetchItem (store) {
 
 export default {
   name: 'manga-viewer',
-  components: { MangaListItem, MangaSwipeViewer },
+  components: { MangaScrollViewer, MangaSwipeViewer },
+  preFetch: fetchItem,
   data () {
     return {
+      mode: 'scroll',
       item: null,
     }
   },
-  preFetch: fetchItem,
   beforeMount () {
     fetchItem(this.$store)
     .then(() => {
@@ -36,7 +34,8 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-.viewer-wrap
-  padding 0 15px
+<style lang="sass">
+  .viewer-section
+    margin: 0
+    padding: 40px 0
 </style>

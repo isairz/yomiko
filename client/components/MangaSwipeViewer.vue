@@ -1,17 +1,19 @@
 <template>
-  <article>
-    <div class="info">{{ `${this.page} / ${item.pages.length} ${item.name}` }}</div>
-    <div class="wrap"
-      v-touch:pan="onPan"
-      v-touch-options:pan="{ direction: 'horizontal', threshold: 10 }"
-      v-touch:doubletap="onDoubleTap"
-      @wheel="handleWheel"
-    >
-      <div class="slide" :style="slide(index)" v-for="index in maxPage">
-        <div class="image" v-if="index >= pageDebounded - 1 && index <= pageDebounded + 4" :style="`background-image: url(${src(index)})`"></div>
+  <div class="manga-swipe-viewer">
+    <article>
+      <div class="info">{{ `${this.page} / ${item.pages.length} ${item.name}` }}</div>
+      <div class="wrap"
+        v-touch:pan="onPan"
+        v-touch-options:pan="{ direction: 'horizontal', threshold: 10 }"
+        v-touch:doubletap="onDoubleTap"
+        @wheel="handleWheel"
+      >
+        <div class="slide" :style="slide(index)" v-for="index in maxPage">
+          <div class="image" v-if="index >= pageDebounded - 1 && index <= pageDebounded + 4" :style="`background-image: url(${src(index)})`"></div>
+        </div>
       </div>
-    </div>
-  </article>
+    </article>
+  </div>>
 </template>
 
 <script>
@@ -154,42 +156,42 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-article
-  position fixed
-  overflow hidden
-  top 0
-  bottom 0
-  left 0
-  right 0
-  background #000
+<style lang="sass">
+.manga-swipe-viewer
+  article
+    position: fixed
+    overflow: hidden
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0
+    background: #000
 
-.info {
-  position fixed
-  left 10px
-  top 4px
-  color #c0c0c0
-  z-index 1000
-}
+  .info
+    position: fixed
+    left: 10px
+    top: 4px
+    color: #c0c0c0
+    z-index: 1000
 
-.wrap, .slide, .image
-  width 100%
-  height 100%
+  .wrap, .slide, .image
+    width: 100%
+    height: 100%
 
-.slide
-  position: absolute
-  transform translate3d(0, 0, 0)
-  &.left
-    transform translate3d(-100%, 0, 0)
-  &.right
-    transform translate3d(100%, 0, 0)
+  .slide
+    position: absolute
+    transform: translate3d(0, 0, 0)
+    &.left
+      transform: translate3d(-100%, 0, 0)
+    &.right
+      transform: translate3d(100%, 0, 0)
 
-.wrap
-  position relative
-  z-index: 1
+  .wrap
+    position: relative
+    z-index: 1
 
-.image
-  background-size contain
-  background-repeat no-repeat
-  background-position center
+  .image
+    background-size: contain
+    background-repeat: no-repeat
+    background-position: center
 </style>
