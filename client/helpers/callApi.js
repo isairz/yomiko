@@ -24,7 +24,6 @@ export default function callApi (options) {
     options.headers['Prefer'] = 'plurality=singular'
   }
 
-  console.log(options)
   return axios(options)
   .then(res => {
     const contentRange = res.headers['content-range']
