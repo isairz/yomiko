@@ -1,6 +1,8 @@
 import axios from 'axios'
 
-const API_URL = 'http://localhost:3000'
+const API_URL = (typeof window === 'undefined' || process.env.NODE_ENV === 'test')
+  ? process.env.BASE_URL || (`http://localhost:${process.env.PORT || 8080}/api`)
+  : '/api'
 const ContentRangeStructure = /^(\d+)-(\d+)\/(\d+)$/
 
 export default function callApi (options) {
