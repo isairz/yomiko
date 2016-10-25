@@ -1,7 +1,7 @@
 <template>
   <section class="viewer-section" v-if="item">
     <div class="container" >
-      <manga-swipe-viewer :item="item" v-if="mode === 'swipe'"/>
+      <manga-swipe-viewer :item="item" v-if="$store.state.manga.mode"/>
       <manga-scroll-viewer :item="item" v-else/>
     </div>
   </section>
@@ -21,7 +21,6 @@ export default {
   preFetch: fetchItem,
   data () {
     return {
-      mode: 'scroll',
       item: null,
     }
   },
@@ -30,6 +29,22 @@ export default {
     .then(() => {
       this.item = this.$store.state.manga.info[this.$store.state.route.params.id]
     })
+  },
+  mounted () {
+    window.addEventListener('keydown', this.handleKeyDown)
+  },
+  beforeDestroy () {
+    window.removeEventListener('keydown', this.handleKeyDown)
+  },
+  methods: {
+    handleKeyDown (e) {
+      switch (e.key) {
+        case 'F2':
+          this.$store.dispatch('TOGGLE_VIEWER_MODE')
+          e.preventDefault()
+          break
+      }
+    },
   },
 }
 </script>

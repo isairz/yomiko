@@ -31,6 +31,7 @@ const store = new Vuex.Store({
       list: [],
       info: {},
       itemsPerPage: 12,
+      mode: false,
     },
   },
   actions: {
@@ -63,6 +64,9 @@ const store = new Vuex.Store({
         return commit('SET_MANGA_PAGE', { id, pages: json })
       }
     },
+
+    TOGGLE_VIEWER_MODE: ({ commit, state }) =>
+      commit('SET_VIEWER_MODE', !state.manga.mode),
   },
   mutations: {
     SET_MANGA_LIST: (state, list) => {
@@ -78,6 +82,10 @@ const store = new Vuex.Store({
 
     SET_MANGA_PAGE: (state, { id, pages }) => {
       state.manga.info[id].pages = pages
+    },
+
+    SET_VIEWER_MODE: (state, mode) => {
+      state.manga.mode = mode
     },
   },
 

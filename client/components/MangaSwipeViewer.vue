@@ -33,6 +33,15 @@ export default {
   props: {
     item: Object,
   },
+  mounted () {
+    window.addEventListener('keydown', this.handleKeyDown)
+  },
+  beforeDestroy () {
+    window.removeEventListener('keydown', this.handleKeyDown)
+  },
+  serverCacheKey: props => {
+    return `${props.item.id}::${props.item.__lastUpdated}`
+  },
   methods: {
     src (index) {
       if (index < 1 || index > this.item.pages.length) return ''
@@ -145,13 +154,6 @@ export default {
         el.mozRequestFullScreen()
       }
     },
-  },
-  mounted () {
-    window.addEventListener('keydown', (e) => { this.handleKeyDown(e) })
-    // window.addEventListener('wheel', (e) => { this.handleWheel(e) })
-  },
-  serverCacheKey: props => {
-    return `${props.item.id}::${props.item.__lastUpdated}`
   },
 }
 </script>
