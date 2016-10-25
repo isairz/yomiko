@@ -3,7 +3,7 @@
     <div class="card">
       <div class="card-image">
         <router-link :to="'/manga/' + item.id">
-          <figure class="image is-1by1 bookrate">
+          <figure class="image is-1by1 thumbnail">
             <img :src="`//tn.hitomi.la/smalltn/${item.id}/${item.thumbnail}.jpg`">
           </figure>
         </router-link>
@@ -58,6 +58,14 @@ export default {
 
 <style lang="sass">
 .manga-item
+  .thumbnail
+    padding-top: 144%
+    overflow: hidden
+    img
+      width: auto
+      max-width: none
+      margin: auto
+
   .content a:not(.button)
       border-bottom: 0
 
