@@ -165,7 +165,8 @@ export default {
     bottom: 0
     left: 0
     right: 0
-    background: #000
+    background: black
+    z-index: 10
 
   .info
     position: fixed

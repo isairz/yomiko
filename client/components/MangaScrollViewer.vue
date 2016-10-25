@@ -62,13 +62,11 @@ export default {
 
 <style lang="sass">
 .manga-scroll-viewer
-  padding: 0 15px
   background: white
   .title-row
     font-size: 1em
     color: #666
     padding: 10px 20px
-    margin: 0 -15px
     font-weight: normal
     position: relative
     border-bottom: 1px solid #ccc
@@ -78,10 +76,9 @@ export default {
   .progress
     width: auto
     height: 1px
-    margin-left: -15px
-    margin-right: -15px
   .manga-page
     width: 100%
+    padding: 0 15px
     img
       width: auto
       max-height: 1024px
