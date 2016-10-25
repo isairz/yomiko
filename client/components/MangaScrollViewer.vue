@@ -4,8 +4,8 @@
     <progress class="progress is-primary" v-show="loaded < item.pages.length" :value="loaded" :max="item.pages.length">{{ `${this.loaded} / ${item.pages.length}` }}</progress>
     <div class='viewer-wrap'>
       <article>
-        <div class="manga-page" v-for="page in item.pages">
-          <img :src="page.src" />
+        <div class="manga-page" v-for="src in srcs">
+          <img :src="src || 'http://www.arabianbusiness.com/skins/ab.main/gfx/loading_spinner.gif'" />
         </div>
       </article>
     </div>
@@ -31,18 +31,23 @@ export default {
   data () {
     return {
       loaded: 0,
+      srcs: [],
     }
   },
   mounted () {
-    this.item.pages.forEach(page => {
-      const img = new Image()
+    this.srcs = new Array(this.item.pages.length)
+    const loadImage = (i) => {
+      const page = this.item.pages[i]
+      const img = new Image() // eslint-disable-line
       img.src = geturl(this.item.id, page.name)
-      page.src = 'http://www.arabianbusiness.com/skins/ab.main/gfx/loading_spinner.gif'
       img.onload = () => {
-        page.src = img.src
+        this.srcs[i] = img.src
         ++this.loaded
+        if (this.loaded < this.item.pages.length) loadImage(i + 1)
       }
-    })
+    }
+
+    loadImage(0)
   },
   watch: {
     page (to, from) {
