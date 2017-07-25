@@ -1,5 +1,5 @@
 declare namespace Yomiko {
-  export type MangaInfo = {
+  export interface MangaInfo {
     id: string,
     name: string,
     type: string,

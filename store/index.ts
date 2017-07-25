@@ -41,13 +41,14 @@ export const mutations = {
 }
 
 export const getters = {
-  mangaList: state => state.manga.list,
-  mangaInfo: state => state.manga.info[state.manga.current],
+  mangaList: (state: State): Yomiko.MangaInfo[] =>
+    state.manga.list,
 
-  maxPage: (state: State) => {
-    console.log(state)
-    return state.manga.total ? Math.ceil(state.manga.total / state.manga.itemsPerPage) : 1
-  }
+  mangaInfo: (state: State): Yomiko.MangaInfo =>
+    state.manga.info[state.manga.current],
+
+  maxPage: (state: State) =>
+    state.manga.total ? Math.ceil(state.manga.total / state.manga.itemsPerPage) : 1
 }
 
 export const actions = {
@@ -80,8 +81,8 @@ export const actions = {
       await dispatch('fetchMangaInfo', id)
     }
     if (!state.manga.info[id].pages) {
-      const json = await callApi(`pages?mangaId=eq.${id}`)
-      commit('setMangaPage', { id, pages: json })
+      const [pages, total] = await callApi(`pages?mangaId=eq.${id}`)
+      commit('setMangaPage', { id, pages })
     }
   },
 
