@@ -18,6 +18,7 @@
           <div v-if="item.type" class="type">{{ item.type }}</div>
           <tag-list param="author" :values="item.authors" />
           <tag-list param="group" :values="item.groups" />
+          <tag-list param="series" :values="item.serieses" />
           <tag-list param="character" :values="item.characters" />
           <div v-if="item.tags" class="tags">
             <nuxt-link
@@ -86,4 +87,7 @@ export default class MangaListItem extends Vue {
 
   .character a
     color: #aaa
+
+  .series a
+    color: #ee0043
 </style>
