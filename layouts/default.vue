@@ -92,7 +92,7 @@
       <div class="container">
         <div class="content has-text-centered">
           <p>
-            <p>&copy; 2016-2017 &middot; R.O.D</p>
+            <p>&copy; 2014-2017 &middot; R.O.D</p>
           </p>
           <p>
             <p>We are on Twitter <a href='https://twitter.com/@prev_ious' target='_Blank'>@prev_ious</a></p>
