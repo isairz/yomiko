@@ -1,9 +1,20 @@
 import axios from '~plugins/axios'
 import callApi, { makeParams } from './callApi'
 
+type State = {
+  manga: {
+    list: Yomiko.MangaInfo[]
+    total: number
+    info: Yomiko.MangaInfo,
+    current: number,
+    itemsPerPage: number
+  }
+}
+
 export const state = () => ({
   manga: {
     list: [],
+    total: 0,
     info: {},
     current: 0,
     itemsPerPage: 12
@@ -11,29 +22,31 @@ export const state = () => ({
 })
 
 export const mutations = {
-  setMangaList(state, list) {
+  setMangaList(state: State, [list, total]) {
     state.manga.list = list
+    state.manga.total = total
     list.forEach(manga => {
       if (!state.manga.info[manga.id]) state.manga.info[manga.id] = manga
     })
   },
-  setMangaInfo: (state, manga) => {
+  setMangaInfo: (state: State, manga) => {
     if (manga && !state.manga.info[manga.id]) state.manga.info[manga.id] = manga
   },
-  setMangaPage: (state, { id, pages }) => {
+  setMangaPage: (state: State, { id, pages }) => {
     state.manga.info[id].pages = pages
   },
-  setCurrentId: (state, id) => {
+  setCurrentId: (state: State, id) => {
     state.manga.current = id
   },
 }
 
 export const getters = {
-  mangaList: state => {
-    return state.manga.list
-  },
-  mangaInfo: state => {
-    return state.manga.info[state.manga.current];
+  mangaList: state => state.manga.list,
+  mangaInfo: state => state.manga.info[state.manga.current],
+
+  maxPage: (state: State) => {
+    console.log(state)
+    return state.manga.total ? Math.ceil(state.manga.total / state.manga.itemsPerPage) : 1
   }
 }
 

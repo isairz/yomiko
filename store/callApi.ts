@@ -26,8 +26,14 @@ export default function callApi (options) {
   .then(res => {
     const contentRange = res.headers['content-range']
     const json = res.data
-    if (json && Array.isArray(json) && contentRange && ContentRangeStructure.test(contentRange)) {
-      // json.fullLength = parseInt(ContentRangeStructure.exec(contentRange)[3], 10)
+    if (json && Array.isArray(json) && contentRange) {
+      const range = ContentRangeStructure.exec(contentRange)
+      if (range) {
+        // const start = parseInt(range[1])
+        // const end = parseInt(range[2])
+        const total = parseInt(range[3])
+        return [json, total]
+      }
     }
     return json
   })
