@@ -1,10 +1,15 @@
-node_modules/
+# dependencies
+node_modules
+
+# logs
 npm-debug.log
-.DS_Store
+
+# Nuxt build
+.nuxt
+
+# Nuxt generate
+dist
+
+# dummy files
 *.swp
 
-config.js
-
-dist/
-files/
-temp/
