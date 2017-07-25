@@ -26,7 +26,7 @@
               :to="`/manga/tag/${value}`"
               :key="value"
             >
-              {{ value }}
+              {{ value | tags }}
             </nuxt-link>
           </div>
         </div>
