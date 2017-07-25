@@ -22,8 +22,11 @@ export default class MangaListPage extends Vue {
   @Getter mangaList
   @Action fetchMangaList
   
-  asyncData ({ store }) {
-    return store.dispatch('fetchMangaList', { page: 1 })
+  asyncData ({ params, store }) {
+    return store.dispatch('fetchMangaList', {
+      [params.key]: params.value,
+      page: 1
+    })
   }
 }
 </script>

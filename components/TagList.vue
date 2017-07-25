@@ -1,11 +1,12 @@
 <template>
   <div v-if="values" :class="param">
-    <router-link
+    <nuxt-link
       v-for="value in values"
       :to="`/manga/${param}/${value}`"
+      :key="value"
     >
       {{ value }}
-    </router-link>
+    </nuxt-link>
   </div>
 </template>
 

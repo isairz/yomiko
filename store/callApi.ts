@@ -33,22 +33,27 @@ export default function callApi (options) {
   })
 }
 
-export function makeParams (params) {
-  if (!params) return
+export function makeParams (filters): Yomiko.FilterParams {
+  let params: Yomiko.FilterParams = {}
 
-  const { param, value } = params
-  switch (param) {
-    case 'id':
-    case 'name':
-    case 'type':
-    case 'language':
-      return { [param]: `eq.${value}` }
-    case 'author':
-    case 'group':
-    case 'character':
-    case 'tag':
-      return { [param + 's']: `@>.{${value}}` }
-    case 'series':
-      return { [param + 'es']: `@>.{${value}}` }
+  for (let [key, value] of filters) {
+    switch (key) {
+      case 'id':
+      case 'name':
+      case 'type':
+      case 'language':
+        params[key] = `eq.${value}`
+        break
+      case 'author':
+      case 'group':
+      case 'character':
+      case 'tag':
+        params[key + 's'] = `@>.{${value}}`
+        break
+      case 'series':
+        params[key + 'es'] = `@>.{${value}}`
+        break
+    }
   }
+  return params
 }

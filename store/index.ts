@@ -38,13 +38,13 @@ export const getters = {
 }
 
 export const actions = {
-  async fetchMangaList({ commit, state }, { page }) {
+  async fetchMangaList({ commit, state }, { page, ...params }) {
     const response = await callApi({
       url: 'mangas',
       params: {
         language: 'eq.korean',
         order: 'id.desc',
-        // ...makeParams(state.route.params),
+        ...makeParams(params),
       },
       page,
       itemsPerPage: state.manga.itemsPerPage,

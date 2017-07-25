@@ -2,34 +2,34 @@
   <div class="manga-item">
     <div class="card">
       <div class="card-image">
-        <router-link :to="'/manga/' + item.id">
+        <nuxt-link :to="`/manga/view/${item.id}`">
           <figure class="image is-1by1 thumbnail">
             <img :src="`//tn.hitomi.la/smalltn/${item.id}/${item.thumbnail}.jpg`">
           </figure>
-        </router-link>
+        </nuxt-link>
       </div>
       <div class="card-content">
         <div class="content">
           <h3 class="title">
-            <router-link :to="'/manga/' + item.id">
+            <nuxt-link :to="'/manga/' + item.id">
               {{ item.name }}
-            </router-link>
+            </nuxt-link>
           </h3>
-          <!-- <div v-if="item.type" class="type">{{ bookTypes[item.type] }}</div> -->
-          <tag-list :param="'author'" :values="item.authors" />
-          <tag-list :param="'group'" :values="item.groups" />
-          <tag-list :param="'character'" :values="item.characters" />
+          <div v-if="item.type" class="type">{{ item.type }}</div>
+          <tag-list param="author" :values="item.authors" />
+          <tag-list param="group" :values="item.groups" />
+          <tag-list param="character" :values="item.characters" />
           <div v-if="item.tags" class="tags">
-            <router-link
-              class="pink"
+            <nuxt-link
               v-for="value in item.tags"
               :to="`/manga/tag/${value}`"
+              :key="value"
             >
-              {{ value | tags }}
-            </router-link>
+              {{ value }}
+            </nuxt-link>
           </div>
         </div>
-      </div> 
+      </div>
     </div>
   </div>
 </template>
@@ -47,7 +47,7 @@ import TagList from './TagList.vue'
   },
   components: {
     TagList
-  } 
+  }
 })
 export default class MangaListItem extends Vue {
 }
