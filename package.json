@@ -26,7 +26,7 @@
     "axios": "^0.16.2",
     "bulma": "^0.4.3",
     "font-awesome": "^4.7.0",
-    "nuxt": "^1.0.0-alpha4",
+    "nuxt": "^1.0.0-alpha.4",
     "nuxt-class-component": "^1.0.1",
     "sass-loader": "^6.0.6",
     "vue-class-component": "^5.0.1",
