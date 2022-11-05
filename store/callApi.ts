@@ -1,21 +1,20 @@
 import axios from 'axios'
 
-const API_URL = 'https://yomiko4.isair.kr/api'
 const ContentRangeStructure = /^(\d+)-(\d+)\/(\d+)$/
 
 export default function callApi (options) {
   if (typeof options === 'string') options = { url: options }
   options.headers = options.headers || {}
 
-  options.url = API_URL + '/' + options.url
-
   // pagination
   if (options.page && options.itemsPerPage) {
     const to = (options.page || 1) * options.itemsPerPage - 1
     const from = to - options.itemsPerPage + 1
-    // this.header['Range-Unit'] = 'items'
+    // options.headers['Range-Unit'] = 'items'
     options.headers['Range'] = `${from || 0}-${to || ''}`
   }
+
+  console.log(options)
 
   // single
   if (options.single) {
@@ -42,7 +41,8 @@ export default function callApi (options) {
 export function makeParams (filters): Yomiko.FilterParams {
   let params: Yomiko.FilterParams = {}
 
-  for (let [key, value] of filters) {
+  for (let key in filters) {
+    const value = filters[key]
     switch (key) {
       case 'id':
       case 'name':

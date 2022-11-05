@@ -1,6 +1,20 @@
 declare namespace Yomiko {
+  export type MangaId = number | string
+
+  export type Dictionary<T> = { [key: string]: T }
+
+  export interface Source {
+    name: string,
+    favicon: string,
+    api_url: string,
+    index_list: string[],
+
+    getThumbnail(info: Yomiko.MangaInfo): string
+    getPage(id: MangaId, page: number, name: string): string
+  }
+
   export interface MangaInfo {
-    id: string,
+    id: MangaId,
     name: string,
     type: string,
     language: string,
@@ -9,7 +23,8 @@ declare namespace Yomiko {
     characters: string[],
     tag: string[],
     serieses: string[],
-    pages?: any[]
+    pages?: any[],
+    thumbnail?: string
   }
 
   export type FilterParams = {

@@ -19,24 +19,23 @@
     </div>
 
     <div class="container">
-      <h3>요미코는?</h3>
-
-      <dl>
-        <dt>만화 뷰어</dt>
-        <dd>
-          간단히 말해서 편리한 만화뷰어에요.
-        </dd>
-        <dt>사용법</dt>
-        <dd>
-          위의 요미코 아이콘을 누르고 사용해요.
-        </dd>
-        <dd>
-          모바일 크롬의 경우 [메뉴 - 홈 화면에 추가] 를 해두시면 편리해요.
-        </dd>
-      </dl>
+      <nuxt-link v-for="source in sources" :key="source" :to="`/${source}`">
+        {{ source }}
+      </nuxt-link>
     </div>
   </div>
 </template>
+
+<script lang="ts">
+import Vue from "vue"
+import Component from "nuxt-class-component"
+import SourceMap from '../api/SourceMap'
+
+@Component({})
+export default class IndexPage extends Vue {
+  sources = Array.from( SourceMap.keys() )
+}
+</script>
 
 <style lang="sass">
 $cyan: #33e0ff

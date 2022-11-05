@@ -42,8 +42,8 @@ export default {
       const img = new Image() // eslint-disable-line
       img.src = geturl(this.item.id, page.name)
       this.srcs[i] = img.src
+      ++this.loaded
       img.onload = () => {
-        ++this.loaded
         if (this.loaded < this.item.pages.length) loadImage(i + 1)
       }
     }

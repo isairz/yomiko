@@ -2,7 +2,7 @@
   <div class="manga-item">
     <div class="card">
       <div class="card-image">
-        <nuxt-link :to="`/manga/view/${item.id}`">
+        <nuxt-link :to="mangaLink(item)">
           <figure class="image is-1by1 thumbnail">
             <img :src="`//tn.hitomi.la/smalltn/${item.id}/${item.thumbnail}.jpg`">
           </figure>
@@ -11,7 +11,7 @@
       <div class="card-content">
         <div class="content">
           <h3 class="title">
-            <nuxt-link :to="'/manga/' + item.id">
+            <nuxt-link :to="mangaLink(item)">
               {{ item.name }}
             </nuxt-link>
           </h3>
@@ -40,6 +40,7 @@
 import Vue from "vue";
 import Component from "nuxt-class-component"
 import TagList from './TagList.vue'
+import { Getter } from "vuex-class"
 // import { characters, bookTypes } from '../helpers/constants'
 
 @Component({
@@ -51,6 +52,7 @@ import TagList from './TagList.vue'
   }
 })
 export default class MangaListItem extends Vue {
+  @Getter mangaLink
 }
 </script>
 

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
 const filters = {
+  capitalize: str => str.charAt(0).toUpperCase() + str.slice(1),
   tags: tag => tag.replace(/^female:/, '♀').replace(/^male:/, '♂')
 }
 

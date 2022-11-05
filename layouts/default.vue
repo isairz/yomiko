@@ -25,17 +25,8 @@
             <nuxt-link to="/manga" class="navbar-item">
               Recently
             </nuxt-link>
-            <nuxt-link to="/tag" class="navbar-item">
-              Tag
-            </nuxt-link>
-            <nuxt-link to="/artist" class="navbar-item">
-              Artist
-            </nuxt-link>
-            <nuxt-link to="/artist" class="navbar-item">
-              Series
-            </nuxt-link>
-            <nuxt-link to="/character" class="navbar-item">
-              Character
+            <nuxt-link v-for="index in indexList" :to="`${index}`" :key="index" class="navbar-item">
+              {{ index | capitalize }}
             </nuxt-link>
             <div class="navbar-item has-dropdown is-hoverable">
               <nuxt-link to="/manga" class="navbar-link" href="/documentation/overview/start/">
@@ -102,3 +93,15 @@
     </footer>
   </div>
 </template>
+
+<script lang="ts">
+import Vue from "vue"
+import { mapGetters } from 'vuex'
+
+export default {
+  name: 'nuxt-default_layout',
+  computed: {
+    ...mapGetters(['indexList'])
+  }
+}
+</script>
